@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.ClientBannerMapper">
+
+    <insert id="addBanner" parameterType="ClientBannerBean">
+        INSERT INTO client_banner (title, description, img)
+        VALUES (#{title}, #{description}, #{img})
+    </insert>
+
+
+    <update id="updateBanner" parameterType="ClientBannerBean">
+        UPDATE client_banner
+        SET title       = #{title},
+            description = #{description},
+            img         = #{img}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteBanner" parameterType="long">
+        DELETE
+        FROM client_banner
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getBanner" resultType="ClientBannerBean">
+        SELECT *
+        FROM client_banner
+    </select>
+
+</mapper>

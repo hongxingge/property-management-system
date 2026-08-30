@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.ParkRentMapper">
+
+    <select id="getRent" resultType="ParkRentBean">
+        SELECT *
+        FROM park_rent
+    </select>
+
+    <select id="getRentByOwnerId" resultType="ParkRentBean">
+        SELECT *
+        FROM park_rent
+        WHERE owner_id = #{ownerId}
+    </select>
+    <select id="getRentByParkNumber" resultType="ParkRentBean">
+        SELECT *
+        FROM park_rent
+        WHERE park_id IN (SELECT id FROM park WHERE number = #{number})
+    </select>
+
+    <select id="getRentByCondition" resultType="ParkRentBean">
+        SELECT *
+        FROM park_rent r
+        WHERE (park_id = #{parkId} OR car_id = #{carId})
+          AND ((unix_timestamp(r.start_time) &gt;= unix_timestamp(#{startTime})
+            AND unix_timestamp(r.start_time) &lt;= unix_timestamp(#{endTime}))
+            OR (unix_timestamp(r.start_time) &lt;= unix_timestamp(#{startTime})
+                AND unix_timestamp(r.end_time) &gt;= unix_timestamp(#{endTime}))
+            OR (unix_timestamp(r.end_time) &gt;= unix_timestamp(#{startTime})
+                AND unix_timestamp(r.end_time) &lt;= unix_timestamp(#{endTime}))
+            OR (unix_timestamp(r.start_time) &gt;= unix_timestamp(#{startTime})
+                AND unix_timestamp(r.end_time) &lt;= unix_timestamp(#{endTime})))
+    </select>
+
+    <insert id="addRent" parameterType="ParkRentBean">
+        INSERT INTO park_rent (car_id, owner_id, park_id, start_time, end_time, cost_id)
+        VALUES (#{carId}, #{ownerId}, #{parkId}, #{startTime}, #{endTime}, #{costId})
+    </insert>
+
+    <update id="updateRent" parameterType="ParkRentBean">
+        UPDATE park_rent
+        SET car_id     = #{carId},
+            owner_id   = #{ownerId},
+            park_id    = #{parkId},
+            start_time = #{startTime},
+            end_time   = #{endTime}
+        WHERE id = #{id}
+    </update>
+
+
+    <delete id="deleteRent">
+        DELETE
+        FROM park_rent
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

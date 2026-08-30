@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.RecordMapper">
+
+
+    <select id="getRecord" resultType="RecordBean">
+        SELECT *
+        FROM record
+    </select>
+
+
+    <select id="getRecordByCondition" resultType="RecordBean">
+        SELECT *
+        FROM record
+        WHERE name LIKE concat('%',#{condition},'%') or
+            phone LIKE concat('%',#{condition},'%')
+    </select>
+
+
+    <delete id="deleteRecord">
+        DELETE
+        FROM record
+        WHERE id = #{id}
+    </delete>
+
+
+    <insert id="addRecord" parameterType="RecordBean">
+        INSERT INTO record (name, id_card, phone, source_address, trip_mode, return_time, train_number, remark)
+        VALUES (#{name}, #{idCard}, #{phone}, #{sourceAddress}, #{tripMode}, #{returnTime}, #{trainNumber}, #{remark})
+    </insert>
+
+
+    <update id="updateRecord" parameterType="RecordBean">
+        UPDATE record
+        SET name           = #{name},
+            id_card        = #{idCard},
+            phone          = #{phone},
+            source_address = #{sourceAddress},
+            trip_mode      = #{tripMode},
+            train_number   = #{trainNumber},
+            return_time    = #{returnTime},
+            remark         = #{remark}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

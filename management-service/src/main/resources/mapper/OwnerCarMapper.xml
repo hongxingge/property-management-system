@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.OwnerCarMapper">
+
+
+    <select id="getOwnerCar" resultType="OwnerCarBean">
+        SELECT c.*, u.`name` AS owner_name, u.id_card AS owner_id_card
+        FROM owner_car c
+                 LEFT JOIN room_user u ON c.owner_id = u.id
+    </select>
+
+    <select id="getOwnerCarByNumber" resultType="OwnerCarBean">
+        SELECT c.*, u.`name` AS owner_name, u.id_card AS owner_id_card
+        FROM owner_car c
+                 LEFT JOIN room_user u ON c.owner_id = u.id
+        WHERE car_number = #{carNumber}
+    </select>
+
+    <select id="getOwnerCarByOwnerId" resultType="OwnerCarBean">
+        SELECT c.*, u.`name` AS owner_name, u.id_card AS owner_id_card
+        FROM owner_car c
+                 LEFT JOIN room_user u ON c.owner_id = u.id
+        WHERE owner_id = #{ownerId}
+    </select>
+
+    <select id="getCarById" resultType="OwnerCarBean">
+        SELECT *
+        FROM owner_car
+        WHERE id = #{id}
+    </select>
+
+
+    <delete id="deleteOwnerCar">
+        DELETE
+        FROM owner_car
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="addOwnerCar" parameterType="OwnerCarBean">
+        INSERT INTO owner_car (car_number, car_type, car_brand, car_color, owner_id)
+        VALUES (#{carNumber}, #{carType}, #{carBrand}, #{carColor}, #{ownerId})
+    </insert>
+
+
+    <update id="updateOwnerCar" parameterType="OwnerCarBean">
+        UPDATE owner_car
+        SET car_number = #{carNumber},
+            car_type   = #{carType},
+            car_brand  = #{carBrand},
+            car_color  = #{carColor},
+            owner_id   = #{ownerId}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

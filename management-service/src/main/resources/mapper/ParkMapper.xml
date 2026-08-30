@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.ParkMapper">
+
+
+    <select id="getPark" resultType="ParkBean">
+        SELECT park.*, carport.number AS carport_name
+        FROM park   LEFT JOIN carport ON park.carport_id = carport.id
+    </select>
+
+    <select id="getParkByNumber" resultType="ParkBean">
+        SELECT park.*, carport.number AS carport_name
+        FROM park   LEFT JOIN carport ON park.carport_id = carport.id
+        WHERE park.number = #{number}
+    </select>
+
+    <select id="getParkById" resultType="ParkBean">
+        SELECT park.*, carport.number AS carport_name
+        FROM park   LEFT JOIN carport ON park.carport_id = carport.id
+        WHERE park.id = #{id}
+    </select>
+
+    <insert id="addPark" parameterType="ParkBean">
+        INSERT INTO park (number, type, remark, carport_id, area)
+        VALUES (#{number}, #{type}, #{remark}, #{carportId}, #{area})
+    </insert>
+
+
+    <delete id="deletePark">
+        DELETE
+        FROM park
+        WHERE id = #{id}
+    </delete>
+
+
+    <update id="updatePark" parameterType="parkBean">
+        UPDATE park
+        SET number    = #{number},
+            type      = #{type},
+            remark    = #{remark},
+            carport_id=#{carportId},
+            area=#{area}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

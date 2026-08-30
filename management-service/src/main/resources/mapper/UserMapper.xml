@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.UserMapper">
+
+
+    <select id="queryUser" resultType="userBean">
+        SELECT *
+        FROM user
+    </select>
+
+
+    <select id="queryUserByPhone" parameterType="string" resultType="userBean">
+        SELECT *
+        FROM user
+        WHERE phone = #{phone}
+    </select>
+
+
+
+    <insert id="addUser" parameterType="userBean">
+        INSERT INTO user (uid, name, phone, pwd, type)
+        VALUES (#{uid}, #{name}, #{phone}, #{pwd}, #{type})
+    </insert>
+
+
+    <delete id="deleteUserByUid" parameterType="string">
+        DELETE
+        FROM user
+        WHERE uid = #{uid}
+    </delete>
+
+
+    <update id="updateUserByUid" parameterType="userBean">
+        UPDATE user
+        SET name  = #{name},
+            phone = #{phone},
+            pwd   = #{pwd}
+        WHERE uid = #{uid}
+    </update>
+
+</mapper>

@@ -1,0 +1,104 @@
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/** 水平靠左，垂直居中 */
+.flex-x-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+/** 水平靠右，垂直居中 */
+.flex-x-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+/** 水平居中，垂直居中 */
+.flex-x-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/** 水平靠两边，垂直居中 */
+.flex-x-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/** 水平间距相同，垂直居中 */
+.flex-x-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/** 水平居中，垂直靠上 */
+.flex-x-top {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/** 水平居中，垂直靠下 */
+.flex-x-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/** ……………………………………………… 纵向y轴布局 column ……………………………………………… */
+/** 水平居中，垂直居中 */
+.flex-y-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/** 图片宽高100% */
+.img-full {
+    width: 100%;
+    height: 100%;
+}
+
+/** 单行文字省略 */
+.text-one-ellipsis {
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/** 两行文字省略 */
+.text-two-ellipsis {
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-clamp: 2; /** 限制在一个块元素显示的文本的行数 */
+    text-overflow: ellipsis;
+}
+
+

@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/management_db?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 1018
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.manage.bean
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+server:
+  servlet:
+    context-path: /management
+  port: 8899
+
+
+# 打印sqlcom.example.manage.bean
+logging:
+  level:
+    com.example.manage.mapper: debug
+
+# file-save-path: C:/user_images
+file-save-path: C:/user_images/

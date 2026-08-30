@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.manage.mapper.RoomUserMapper">
+
+
+    <insert id="addRoomUser" parameterType="roomUserBean">
+        INSERT INTO room_user (id, name, sex, id_card, phone, creator, room_number, age,pwd)
+        VALUES (#{id}, #{name}, #{sex}, #{idCard}, #{phone}, #{creator}, #{roomNumber}, #{age}, #{pwd})
+    </insert>
+
+    <select id="queryRoomUser" parameterType="string" resultType="roomUserBean">
+        SELECT *
+        FROM room_user
+    </select>
+
+    <select id="getRoomUserById" parameterType="string" resultType="roomUserBean">
+        SELECT *
+        FROM room_user WHERE id=#{id}
+    </select>
+
+    <select id="getRoomUserByPhone" parameterType="string" resultType="roomUserBean">
+        SELECT *
+        FROM room_user WHERE phone=#{phone}
+    </select>
+
+    <select id="queryRoomUserByCondition" parameterType="string" resultType="roomUserBean">
+        SELECT *
+        FROM room_user
+        WHERE name LIKE concat('%',#{condition},'%') or
+        phone LIKE concat('%',#{condition},'%')
+    </select>
+
+<!--    <select id="queryRoomUserByCondition" parameterType="string" resultType="roomUserBean">-->
+<!--        SELECT *-->
+<!--        FROM room_user-->
+<!--        <where>-->
+<!--            <if test="name!=null and name!=''">-->
+<!--                AND name = #{name}-->
+<!--            </if>-->
+<!--            <if test="phone!=null and phone!=''">-->
+<!--                AND phone = #{phone}-->
+<!--            </if>-->
+<!--            <if test="room_number!=null and room_number!=''">-->
+<!--                AND room_number = #{room_number}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <delete id="deleteRoomUserById" parameterType="string">
+        DELETE
+        FROM room_user
+        WHERE id = #{id}
+    </delete>
+    <!--    VALUES (#{id}, #{name}, #{sex}, #{idCard}, #{phone}, #{creator}, #{roomNumber}, #{age})-->
+    <update id="updateRoomUserById" parameterType="roomUserBean">
+        UPDATE room_user
+        SET name   = #{name},
+            sex=#{sex},
+            id_card=#{idCard},
+            phone  = #{phone},
+            room_number  = #{roomNumber},
+            age    = #{age}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updatePwd" parameterType="roomUserBean">
+        UPDATE room_user
+        SET pwd  = #{uPwd}
+        WHERE  phone=#{phone}
+    </update>
+</mapper>

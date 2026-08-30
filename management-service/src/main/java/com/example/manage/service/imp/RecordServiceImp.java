@@ -5,7 +5,7 @@ import com.example.manage.mapper.RecordMapper;
 import com.example.manage.service.RecordService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @Component

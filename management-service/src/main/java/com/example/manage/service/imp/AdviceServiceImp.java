@@ -5,7 +5,7 @@ import com.example.manage.mapper.AdviceMapper;
 import com.example.manage.service.AdviceService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @Component

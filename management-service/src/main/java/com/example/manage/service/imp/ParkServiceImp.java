@@ -5,7 +5,7 @@ import com.example.manage.mapper.ParkMapper;
 import com.example.manage.service.ParkService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 @Component

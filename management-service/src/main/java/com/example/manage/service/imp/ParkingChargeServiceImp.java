@@ -4,7 +4,7 @@ import com.example.manage.mapper.ParkingChargeMapper;
 import com.example.manage.service.ParkingChargeService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Component
 public class ParkingChargeServiceImp implements ParkingChargeService {

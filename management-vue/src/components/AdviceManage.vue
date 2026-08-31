@@ -26,7 +26,7 @@
           prop="files"
           label="图片"
       >
-        <template slot-scope="scope">
+        <template #default="scope">
           <template v-for="(item,index) in getFileList(scope.row.fileNames)">
             <img @click="imgClick(baseUrl+'/user_images?fileName='+item)"
                  style="width: 60px;height: 60px;margin-left: 10px"
@@ -45,7 +45,7 @@
 
     <el-dialog
         title="图片"
-        :visible.sync="imgShow"
+        v-model="imgShow"
         width="50%"
         :close-on-click-modal="false"
     >

@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from "@/components/Login";
 import Home from "@/components/Home";
 import PropertyManage from "@/components/PropertyManage";
@@ -24,8 +23,6 @@ import AdviceManage from "@/components/AdviceManage";
 import ClientRentCar from "@/components/ClientRentCar";
 import CarCostManage from "@/components/CarCostManage";
 
-
-Vue.use(VueRouter)
 
 const routes = [
     {
@@ -72,13 +69,8 @@ const routes = [
 
 ]
 
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location, onResolve, onReject) {
-    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-    return originalPush.call(this, location).catch(err => err)
-}
-
-const router = new VueRouter({
+const router = createRouter({
+    history: createWebHashHistory(),
     routes
 })
 

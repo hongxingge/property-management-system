@@ -27,7 +27,7 @@
           prop="files"
           label="图片"
       >
-        <template slot-scope="scope">
+        <template #default="scope">
           <template v-for="(item,index) in getFileList(scope.row.files)">
             <img  @click="imgClick(baseUrl+'/user_images?fileName='+item)" style="width: 60px;height: 60px;margin-left: 10px"
                  :src="baseUrl+'/user_images?fileName='+item">
@@ -42,7 +42,7 @@
           prop="state"
           label="处理状态"
       >
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-tag type="success" v-show="scope.row.state===3">已处理</el-tag>
           <el-tag type="danger" v-show="scope.row.state===1">未处理</el-tag>
           <el-tag v-show="scope.row.state===2">处理中</el-tag>
@@ -56,11 +56,11 @@
       />
       <el-table-column
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               @click="clickOperation(scope.row)"
-              size="mini">修改进度
+              size="small">修改进度
           </el-button>
         </template>
       </el-table-column>
@@ -68,7 +68,7 @@
 
     <el-dialog
         title="修改进度"
-        :visible.sync="dialogShow"
+        v-model="dialogShow"
         width="40%">
       <el-row>
         <el-col :span="LS">进度：</el-col>
@@ -83,15 +83,15 @@
           </el-select>
         </el-col>
       </el-row>
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="operationOk">确 定</el-button>
-    </span>
+    </template>
     </el-dialog>
 
     <el-dialog
         title="图片"
-        :visible.sync="imgShow"
+        v-model="imgShow"
         width="50%"
         :close-on-click-modal="false"
         >

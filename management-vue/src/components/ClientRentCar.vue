@@ -5,11 +5,11 @@
     </div>
     <div class="flex-x-between">
       <div style="font-size: 15px;margin: 20px 0 10px 0">已租车位</div>
-      <el-button v-if="noCar" size="mini" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
+      <el-button v-if="noCar" size="small" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
                  @click="dialogShow=true">添加车辆
       </el-button>
 
-      <el-button v-if="!noCar" size="mini" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
+      <el-button v-if="!noCar" size="small" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
                  @click="selectRent=!selectRent">租车位
       </el-button>
     </div>
@@ -56,25 +56,25 @@
         <el-table-column
             label="状态"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-popover
                 placement="top-start"
                 title="租用时间"
                 width="200"
                 trigger="hover"
                 :content="scope.row.startTime+' ~ '+scope.row.endTime">
-              <el-tag slot="reference">{{ rentState(scope.row) }}</el-tag>
+              <template #reference>{{ rentState(scope.row) }}</template>
             </el-popover>
           </template>
         </el-table-column>
 
         <el-table-column
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="success"
                 @click="showInfo(scope.row)"
-                size="mini">详情
+                size="small">详情
             </el-button>
           </template>
         </el-table-column>
@@ -84,7 +84,7 @@
     <!--车位租用详细信息对话框-->
     <el-dialog
         title="详情"
-        :visible.sync="infoShow"
+        v-model="infoShow"
         width="70%">
       <h4>租用时间</h4>
       <el-descriptions direction="vertical" :column="2" border>
@@ -116,7 +116,7 @@
         <div >
           <div class="flex-x-between">
             <div style="font-size: 15px;margin: 20px 0px">已选车位</div>
-            <el-button size="mini" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
+            <el-button size="small" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
                        @click="selectParkDialog = true;active=1">选择
             </el-button>
           </div>
@@ -130,7 +130,7 @@
 
           <el-dialog
               title="选择车位"
-              :visible.sync="selectParkDialog"
+              v-model="selectParkDialog"
               width="50%">
             <div style="margin-top: 10px">
               <el-table
@@ -168,11 +168,11 @@
                 <el-table-column
                     width="100"
                     label="操作">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-button
                         type="primary"
                         @click="clickOperation(scope.row,1)"
-                        size="mini">选择
+                        size="small">选择
                     </el-button>
                   </template>
                 </el-table-column>
@@ -183,7 +183,7 @@
 
           <div class="flex-x-between" style="margin-top: 20px">
             <div style="font-size: 15px;margin: 20px 0px">已选车辆</div>
-            <el-button size="mini" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
+            <el-button size="small" type="primary" style="width: 80px;height: 30px;margin-left: 20px" round
                        @click="selectCarDialog=true;active=2">选择
             </el-button>
           </div>
@@ -196,7 +196,7 @@
 
           <el-dialog
               title="选择车辆"
-              :visible.sync="selectCarDialog"
+              v-model="selectCarDialog"
               width="50%">
             <div style="margin-top: 10px">
               <el-table
@@ -230,11 +230,11 @@
                 <el-table-column
                     width="100"
                     label="操作">
-                  <template slot-scope="scope">
+                  <template #default="scope">
                     <el-button
                         type="primary"
                         @click="clickOperation(scope.row,2)"
-                        size="mini">选择
+                        size="small">选择
                     </el-button>
                   </template>
                 </el-table-column>
@@ -266,7 +266,7 @@
       <el-dialog
           title="您暂无车辆信息，需添加车辆"
           :close-on-click-modal="false"
-          :visible.sync="dialogShow"
+          v-model="dialogShow"
           width="50%">
         <el-row>
           <el-col :span="LS">车类型：</el-col>
@@ -302,10 +302,10 @@
           </el-col>
         </el-row>
 
-        <span slot="footer" class="dialog-footer">
+        <template #footer>
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="operationOk">确 定</el-button>
-    </span>
+    </template>
       </el-dialog>
     </div>
 
@@ -329,7 +329,6 @@ import {
   apiQueryRoomUser,
   apiUpdateRent,
   apiUpdateRoomUserById,
-  apiUpdateUserById,
   apiUpdateUserByUid,
   getOwnerCarByNumber, getRentByOwnerId
 } from "@/utils/request";

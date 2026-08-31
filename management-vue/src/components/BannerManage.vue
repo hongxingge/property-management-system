@@ -27,22 +27,22 @@
           prop="deviceStatus"
           label="图片"
       >
-        <template slot-scope="scope">
+        <template #default="scope">
           <img height="100px" :src="scope.row.img">
         </template>
       </el-table-column>
       <el-table-column
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               @click="clickUpdateBanner(scope.row)"
-              size="mini">修改
+              size="small">修改
           </el-button>
           <el-button
               type="danger"
               @click="clickDeleteBanner(scope.row)"
-              size="mini">删除
+              size="small">删除
           </el-button>
         </template>
       </el-table-column>
@@ -51,7 +51,7 @@
         @close="currentBanner.title='';currentBanner.description=''; currentBanner.img='';  $refs.addImg.value=null"
         :close-on-click-modal="false"
         :title="isAdd?'添加':'修改'"
-        :visible.sync="dialogVisible"
+        v-model="dialogVisible"
         width="40%">
       <el-row>
         <el-col :span="leftSpan">标题：</el-col>
@@ -75,10 +75,10 @@
         </el-col>
       </el-row>
 
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogOk">确 定</el-button>
-            </span>
+            </template>
     </el-dialog>
   </div>
 </template>

@@ -55,12 +55,12 @@
       />
       <el-table-column
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               :disabled="scope.row.payState==2"
               @click="pay(scope.row)"
-              size="mini">支付
+              size="small">支付
           </el-button>
         </template>
       </el-table-column>
@@ -72,7 +72,7 @@
 import {
   apiAddRoomUser, apiDeleteRoomUserById,
   apiDeleteUserByUid, apiGetCost, apiGetCostByUid, apiPay,
-  apiQueryRoomUser, apiUpdateRoomUserById, apiUpdateUserById,
+  apiQueryRoomUser, apiUpdateRoomUserById,
   apiUpdateUserByUid
 } from "@/utils/request";
 

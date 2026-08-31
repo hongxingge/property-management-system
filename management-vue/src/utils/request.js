@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Loading} from 'element-ui'
+import {ElLoading} from 'element-plus'
 
 // let baseURL = 'http://47.95.235.161:8899/management'
 let baseURL = 'http://localhost:8899/management'
@@ -15,7 +15,7 @@ const $http = axios.create({
 const get = (url, params) => {
     params = params || {}
     return new Promise((resolve, reject) => {
-        let loading = Loading.service({
+        let loading = ElLoading.service({
             text: '加载中...',
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'
@@ -45,7 +45,7 @@ const get = (url, params) => {
 const post = (url, params) => {
     params = params || {}
     return new Promise((resolve, reject) => {
-        let loading = Loading.service({
+        let loading = ElLoading.service({
             text: '加载中...',
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'

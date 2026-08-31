@@ -11,9 +11,9 @@
         <div class="right-div">
           {{ name }}
         </div>
-        <el-dropdown-menu slot="dropdown">
+        <template #dropdown>
           <el-dropdown-item command="logout">退出</el-dropdown-item>
-        </el-dropdown-menu>
+        </template>
       </el-dropdown>
 
       <!--      <el-button @click="logout" type="info">退出</el-button>-->
@@ -27,11 +27,11 @@
                  active-text-color="#409FFF" :default-active="activePath">
 
           <el-submenu :index="index+''" v-for="(item ,index) in sideData" :key="index+''">
-            <template slot="title">{{ item.name }}</template>
+            <template #title>{{ item.name }}</template>
 
             <el-menu-item :index="subItem.path" v-for="(subItem,subIndex) in item.childData" :key="index+'-'+subIndex"
                           @click="setNavPath(subItem.path);">
-              <template slot="title">{{ subItem.name }}</template>
+              <template #title>{{ subItem.name }}</template>
             </el-menu-item>
           </el-submenu>
 

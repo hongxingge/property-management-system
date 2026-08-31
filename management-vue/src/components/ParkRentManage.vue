@@ -99,11 +99,11 @@
         <el-table-column
             width="100"
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="primary"
                 @click="clickOperation(scope.row)"
-                size="mini">选择
+                size="small">选择
             </el-button>
           </template>
         </el-table-column>
@@ -144,11 +144,11 @@
         <el-table-column
             width="100"
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="primary"
                 @click="clickOperation(scope.row)"
-                size="mini">选择
+                size="small">选择
             </el-button>
           </template>
         </el-table-column>
@@ -186,11 +186,11 @@
         <el-table-column
             width="100"
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="primary"
                 @click="clickOperation(scope.row)"
-                size="mini">选择
+                size="small">选择
             </el-button>
           </template>
         </el-table-column>
@@ -201,7 +201,7 @@
     <el-dialog
         title="该业主无车辆信息，需添加车辆"
         :close-on-click-modal="false"
-        :visible.sync="dialogShow"
+        v-model="dialogShow"
         width="50%">
       <el-row>
         <el-col :span="LS">车类型：</el-col>
@@ -237,10 +237,10 @@
         </el-col>
       </el-row>
 
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="operationOk">确 定</el-button>
-    </span>
+    </template>
     </el-dialog>
   </div>
 </template>

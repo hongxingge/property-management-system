@@ -49,16 +49,16 @@
       />
       <el-table-column
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               @click="updateClick(scope.row)"
-              size="mini">修改
+              size="small">修改
           </el-button>
           <el-button
               type="danger"
               @click="deleteClick(scope.row)"
-              size="mini">删除
+              size="small">删除
           </el-button>
         </template>
       </el-table-column>
@@ -67,7 +67,7 @@
     <el-dialog
         :close-on-click-modal="false"
         :title="isAdd?'添加业主':'修改业主'"
-        :visible.sync="dialogVisible"
+        v-model="dialogVisible"
         @close="currRoomUser ={}"
         width="40%">
       <el-row>
@@ -115,10 +115,10 @@
         </el-col>
       </el-row>
 
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogOk">确 定</el-button>
-            </span>
+            </template>
     </el-dialog>
   </div>
 </template>
@@ -127,7 +127,7 @@
 import {
   apiAddRoomUser, apiDeleteRoomUserById,
   apiDeleteUserByUid,
-  apiQueryRoomUser, apiUpdateRoomUserById, apiUpdateUserById,
+  apiQueryRoomUser, apiUpdateRoomUserById,
   apiUpdateUserByUid
 } from "@/utils/request";
 

@@ -29,16 +29,16 @@
       <el-table-column
           width="180"
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               @click="clickUpdateNews(scope.row)"
-              size="mini">编辑
+              size="small">编辑
           </el-button>
           <el-button
               type="danger"
               @click="clickDeleteNews(scope.row)"
-              size="mini">删除
+              size="small">删除
           </el-button>
         </template>
       </el-table-column>
@@ -46,7 +46,7 @@
     <el-dialog
         :close-on-click-modal="false"
         :title="isAdd?'添加':'修改'"
-        :visible.sync="showNewsDialog"
+        v-model="showNewsDialog"
         style="height: 80%"
         @close="currentNews ={}"
         width="60%">
@@ -57,31 +57,30 @@
         </el-col>
       </el-row>
 
-      <quill-editor
+      <QuillEditor
           style="margin-top: 10px"
           ref="myQuillEditor"
           v-model="currentNews.content"
           :options="editorOption"
           @blur="onEditorBlur"
       />
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogOk">确 定</el-button>
-            </span>
+            </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import {quillEditor, hljs} from 'vue-quill-editor'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { QuillEditor } from '@vueup/vue-quill'
+import hljs from 'highlight.js'
 import {apiAddNews, apiDeleteNews, apiGetNewsById, apiGetNews, apiUpdateNews} from "@/utils/request";
 
 export default {
   components: {
-    quillEditor
+    QuillEditor
   },
   created() {
     this.getNews()

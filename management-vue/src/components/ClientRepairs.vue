@@ -39,7 +39,7 @@
       <el-table-column
           prop="curState"
           label="处理状态">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-tag type="success" v-show="scope.row.state===3">已处理</el-tag>
           <el-tag type="danger" v-show="scope.row.state===1">未处理</el-tag>
           <el-tag v-show="scope.row.state===2">处理中</el-tag>
@@ -52,16 +52,16 @@
       />
       <el-table-column
           label="操作">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-button
               type="primary"
               @click="clickOperation(scope.row,false)"
-              size="mini">修改
+              size="small">修改
           </el-button>
           <el-button
               type="danger"
               @click="clickOperation(scope.row,true)"
-              size="mini">删除
+              size="small">删除
           </el-button>
         </template>
       </el-table-column>
@@ -69,7 +69,7 @@
     <!--操作对话框-->
     <el-dialog
         :title="isAdd?'添加':'修改'"
-        :visible.sync="dialogShow"
+        v-model="dialogShow"
         @closed="dialogClose"
         :close-on-click-modal="false"
         width="40%">
@@ -128,10 +128,10 @@
       </el-row>
 
 
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="operationOk">确 定</el-button>
-    </span>
+    </template>
     </el-dialog>
   </div>
 </template>

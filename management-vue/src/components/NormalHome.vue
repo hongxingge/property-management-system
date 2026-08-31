@@ -16,9 +16,9 @@
           <div class="right-div">
             {{ name }}
           </div>
-          <el-dropdown-menu slot="dropdown">
+          <template #dropdown>
             <el-dropdown-item command="logout">退出</el-dropdown-item>
-          </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </div>
 

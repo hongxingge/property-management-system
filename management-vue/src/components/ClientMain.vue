@@ -27,7 +27,7 @@
 
             width="140px"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <span>{{ formatTime(scope.row) }}</span>
           </template>
 

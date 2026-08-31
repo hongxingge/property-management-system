@@ -36,16 +36,16 @@
         <el-table-column
             width="200"
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="primary"
                 @click="clickOperation(scope.row,false)"
-                size="mini">修改
+                size="small">修改
             </el-button>
             <el-button
                 @click="clickOperation(scope.row,true)"
                 type="danger"
-                size="mini">删除
+                size="small">删除
             </el-button>
           </template>
         </el-table-column>
@@ -55,7 +55,7 @@
 
     <el-dialog
         :title="isAdd?'添加':'修改'"
-        :visible.sync="dialogShow"
+        v-model="dialogShow"
         width="50%">
       <el-row>
         <el-col :span="LS">停车场编号：</el-col>
@@ -86,10 +86,10 @@
         </el-col>
       </el-row>
 
-      <span slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="operationOk">确 定</el-button>
-    </span>
+    </template>
     </el-dialog>
   </div>
 </template>

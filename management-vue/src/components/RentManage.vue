@@ -61,14 +61,14 @@
             label="租用状态"
             width="70"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-popover
                 placement="top-start"
                 title="租用时间"
                 width="200"
                 trigger="hover"
                 :content="scope.row.startTime+' ~ '+scope.row.endTime">
-              <el-tag slot="reference">{{ rentState(scope.row) }}</el-tag>
+              <template #reference>{{ rentState(scope.row) }}</template>
             </el-popover>
           </template>
         </el-table-column>
@@ -76,21 +76,21 @@
         <el-table-column
             width="220"
             label="操作">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
                 type="success"
                 @click="clickOperation(scope.row,0)"
-                size="mini">详情
+                size="small">详情
             </el-button>
             <el-button
                 type="primary"
                 @click="clickOperation(scope.row,1)"
-                size="mini">修改
+                size="small">修改
             </el-button>
             <el-button
                 @click="clickOperation(scope.row,2)"
                 type="danger"
-                size="mini">删除
+                size="small">删除
             </el-button>
           </template>
         </el-table-column>
@@ -99,7 +99,7 @@
     </div>
     <el-dialog
         title="详情"
-        :visible.sync="infoShow"
+        v-model="infoShow"
         :close-on-click-modal="true"
         width="70%">
       <h4>租用时间</h4>

@@ -4,6 +4,7 @@ import com.example.manage.bean.ClientNewsBean;
 import com.example.manage.bean.FaultRepairs;
 import com.example.manage.bean.PayCostBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.mapper.FaultRepairsMapper;
 import com.example.manage.mapper.PayCostMapper;
 import com.example.manage.service.FaultRepairsService;
@@ -27,6 +28,7 @@ public class FaultRepairsController {
     FaultRepairsService repairsService;
 
     @RequestMapping("/addFault")
+    @RequireRole("owner")
     @ResponseBody
     public ResultBean addFault(@RequestBody FaultRepairs faultRepairs) {
         faultRepairs.setTime(System.currentTimeMillis());
@@ -56,6 +58,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/deleteFault")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean deleteFault(@RequestBody Map<String, Integer> params) {
         if (repairsService.deleteFault(params.get("id"))){
@@ -72,6 +75,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/getFaultByUid")
+    @RequireRole("owner")
     @ResponseBody
     public ResultBean getFaultByUid(@RequestParam("uid") String uid) {
         List<FaultRepairs> faultRepairs = repairsService.getFaultByUid(uid);

@@ -2,6 +2,7 @@ package com.example.manage.controller;
 
 import com.example.manage.bean.ClientBannerBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.service.ClientBannerService;
 import com.example.manage.utils.ResultUtil;
@@ -23,6 +24,7 @@ public class ClientBannerController {
     ClientBannerService bannerService;
 
     @RequestMapping("/addBanner")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean addBanner(@RequestBody ClientBannerBean bannerBean) {
         if (bannerService.addBanner(bannerBean)){
@@ -32,6 +34,7 @@ public class ClientBannerController {
     }
 
     @RequestMapping("/updateBanner")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean updateBanner(@RequestBody ClientBannerBean bannerBean) {
         if (bannerService.updateBanner(bannerBean)){
@@ -41,6 +44,7 @@ public class ClientBannerController {
     }
 
     @RequestMapping("/deleteBanner")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean deleteBanner(@RequestBody Map<String, Long> params) {
         if (bannerService.deleteBanner(params.get("id"))){

@@ -1,6 +1,7 @@
 package com.example.manage.controller;
 
 import com.example.manage.bean.*;
+import com.example.manage.config.RequireRole;
 import com.example.manage.mapper.*;
 import com.example.manage.service.*;
 import com.example.manage.utils.ResultUtil;
@@ -83,6 +84,7 @@ public class ParkRentController {
     }
 
     @RequestMapping("/addRent")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean addOwnerCar(@RequestBody ParkRentBean parkRentBean) {
         List<ParkRentBean> list = parkRentService.getRentByCondition(parkRentBean);
@@ -110,6 +112,7 @@ public class ParkRentController {
     }
 
     @RequestMapping("/updateRent")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean updateRent(@RequestBody ParkRentBean parkRentBean) {
         List<ParkRentBean> list = parkRentService.getRentByCondition(parkRentBean);
@@ -130,6 +133,7 @@ public class ParkRentController {
 
 
     @RequestMapping("/deleteRent")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean deleteRent(@RequestBody Map<String, Integer> params) {
         if (parkRentService.deleteRent(params.get("id"))){

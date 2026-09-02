@@ -2,6 +2,7 @@ package com.example.manage.controller;
 
 import com.example.manage.bean.OwnerCarBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.service.OwnerCarService;
 import com.example.manage.utils.ResultUtil;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ public class OwnerCarController {
     OwnerCarService ownerCarService;
 
     @RequestMapping("/addOwnerCar")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean addOwnerCar(@RequestBody OwnerCarBean ownerCarBean) {
         List<OwnerCarBean> cars = ownerCarService.getOwnerCarByNumber(ownerCarBean.getCarNumber());
@@ -35,6 +37,7 @@ public class OwnerCarController {
     }
 
     @RequestMapping("/updateOwnerCar")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean updateOwnerCar(@RequestBody OwnerCarBean ownerCarBean) {
         if (ownerCarService.updateOwnerCar(ownerCarBean)){
@@ -44,6 +47,7 @@ public class OwnerCarController {
     }
 
     @RequestMapping("/deleteOwnerCar")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean deleteOwnerCar(@RequestBody Map<String, Integer> params) {
         if (ownerCarService.deleteOwnerCar(params.get("id"))){

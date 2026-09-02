@@ -3,6 +3,7 @@ package com.example.manage.controller;
 import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ClientNewsBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.mapper.ClientNewsMapper;
 import com.example.manage.service.ClientNewsService;

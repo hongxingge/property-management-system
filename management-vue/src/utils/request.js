@@ -23,7 +23,7 @@ const get = (url, params) => {
         $http.get(url, {
             params,
             headers: {
-                'userid': window.sessionStorage.getItem('userid')
+                'Authorization': 'Bearer ' + (window.sessionStorage.getItem('token') || '')
             }
         }).then(res => {
             loading.close()
@@ -52,7 +52,7 @@ const post = (url, params) => {
         })
         $http.post(url, JSON.stringify(params), {
                 headers: {
-                    'userid': window.sessionStorage.getItem('userid')
+                    'Authorization': 'Bearer ' + (window.sessionStorage.getItem('token') || '')
                 }
             }
         ).then(res => {

@@ -2,6 +2,7 @@ package com.example.manage.controller;
 
 import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.service.CarportService;
 import com.example.manage.utils.ResultUtil;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class CarportController {
     CarportService carportService;
 
     @RequestMapping("/addCarport")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean addCarport(@RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
@@ -34,6 +36,7 @@ public class CarportController {
     }
 
     @RequestMapping("/updateCarport")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean updateCarport(@RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
@@ -47,6 +50,7 @@ public class CarportController {
     }
 
     @RequestMapping("/deleteCarport")
+    @RequireRole("admin")
     @ResponseBody
     public ResultBean deleteCarport(@RequestBody Map<String, Integer> params) {
         if (carportService.deleteCarport(params.get("id"))){
@@ -61,6 +65,4 @@ public class CarportController {
         List<CarportBean> carport = carportService.getCarport();
         return ResultUtil.getSuccessBean(carport);
     }
-
-
 }

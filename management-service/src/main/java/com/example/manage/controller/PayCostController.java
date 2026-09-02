@@ -2,6 +2,7 @@ package com.example.manage.controller;
 
 import com.example.manage.bean.PayCostBean;
 import com.example.manage.bean.ResultBean;
+import com.example.manage.config.RequireRole;
 import com.example.manage.service.ParkingChargeService;
 import com.example.manage.service.PayCostService;
 import com.example.manage.utils.ResultUtil;
@@ -43,6 +44,7 @@ public class PayCostController {
 
 
     @RequestMapping("/pay")
+    @RequireRole("owner")
     @ResponseBody
     public ResultBean pay(@RequestBody Map<String, Integer> params) {
         if (payCostService.pay(params.get("id"))){

@@ -90,7 +90,7 @@ export default {
         }
         apiUpdatePwd({
           phone: this.userInfo.phone,
-          pwd: this.$md5(this.userInfo.pwd),
+          pwd: this.userInfo.pwd,
           uPwd: this.userInfo.uPwd
         }).then(res => {
           this.userInfo.pwd =this.userInfo.uPwd
@@ -106,26 +106,28 @@ export default {
           return
         }
         if (this.role == 1) {
-          apiNormalLogin({phone: this.userInfo.phone, pwd: this.$md5(this.userInfo.pwd)}).then(res => {
+          apiNormalLogin({phone: this.userInfo.phone, pwd: this.userInfo.pwd}).then(res => {
             if (this.remember) {
-              window.sessionStorage.setItem('phone', res.phone)
+              window.sessionStorage.setItem('phone', res.user.phone)
               window.sessionStorage.setItem('pwd', this.userInfo.pwd)
             }
-            window.sessionStorage.setItem('userid', res.id)
-            window.sessionStorage.setItem('name', res.name)
+            window.sessionStorage.setItem('token', res.token)
+            window.sessionStorage.setItem('userid', res.user.id)
+            window.sessionStorage.setItem('name', res.user.name)
             window.sessionStorage.setItem('activePath', '')
             this.$router.push('/client')
           }).catch(err => {
             this.$message.error(err)
           })
         } else {
-          apiLogin({phone: this.userInfo.phone, pwd: this.$md5(this.userInfo.pwd)}).then(res => {
+          apiLogin({phone: this.userInfo.phone, pwd: this.userInfo.pwd}).then(res => {
             if (this.remember) {
-              window.sessionStorage.setItem('phone', res.phone)
+              window.sessionStorage.setItem('phone', res.user.phone)
               window.sessionStorage.setItem('pwd', this.userInfo.pwd)
             }
-            window.sessionStorage.setItem('userid', res.uid)
-            window.sessionStorage.setItem('name', res.name)
+            window.sessionStorage.setItem('token', res.token)
+            window.sessionStorage.setItem('userid', res.user.uid)
+            window.sessionStorage.setItem('name', res.user.name)
             window.sessionStorage.setItem('activePath', '')
             this.$router.push('/home')
           }).catch(err => {

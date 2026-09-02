@@ -5,6 +5,7 @@ import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
 import com.example.manage.service.OwnerCarService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class OwnerCarController {
     @RequestMapping("/addOwnerCar")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addOwnerCar(@RequestBody OwnerCarBean ownerCarBean) {
+    public ResultBean addOwnerCar(@Valid @RequestBody OwnerCarBean ownerCarBean) {
         List<OwnerCarBean> cars = ownerCarService.getOwnerCarByNumber(ownerCarBean.getCarNumber());
         if (cars != null && cars.size()>0) {
           return   ResultUtil.getFailBean("该车牌号已存在，请修改后提交");
@@ -39,7 +40,7 @@ public class OwnerCarController {
     @RequestMapping("/updateOwnerCar")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateOwnerCar(@RequestBody OwnerCarBean ownerCarBean) {
+    public ResultBean updateOwnerCar(@Valid@RequestBody OwnerCarBean ownerCarBean) {
         if (ownerCarService.updateOwnerCar(ownerCarBean)){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -49,7 +50,7 @@ public class OwnerCarController {
     @RequestMapping("/deleteOwnerCar")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteOwnerCar(@RequestBody Map<String, Integer> params) {
+    public ResultBean deleteOwnerCar(@Valid@RequestBody Map<String, Integer> params) {
         if (ownerCarService.deleteOwnerCar(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

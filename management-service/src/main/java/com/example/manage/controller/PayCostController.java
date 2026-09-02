@@ -6,6 +6,7 @@ import com.example.manage.config.RequireRole;
 import com.example.manage.service.ParkingChargeService;
 import com.example.manage.service.PayCostService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,7 @@ public class PayCostController {
 
     @RequestMapping("/addCost")
     @ResponseBody
-    public ResultBean addCost(@RequestBody PayCostBean payCostBean) {
+    public ResultBean addCost(@Valid @RequestBody PayCostBean payCostBean) {
         payCostBean.setTime(System.currentTimeMillis());
         payCostBean.setPayState(1);
         payCostBean.setIsCheck(1);
@@ -67,7 +68,7 @@ public class PayCostController {
 
     @RequestMapping("/updateCost")
     @ResponseBody
-    public ResultBean updateCost(@RequestBody PayCostBean payCostBean) {
+    public ResultBean updateCost(@Valid @RequestBody PayCostBean payCostBean) {
         if (payCostService.updateCost(payCostBean)){
             return ResultUtil.getResultBean(1, "修改成功");
         }

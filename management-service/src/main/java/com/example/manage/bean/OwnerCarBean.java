@@ -1,8 +1,14 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class OwnerCarBean {
     private int id;
+    @NotBlank(message = "车牌号不能为空")
+    @Pattern(regexp = "^[\\u4e00-\\u9fa5][A-Z][A-Z0-9]{5,6}$", message = "车牌号格式不正确")
     private String carNumber;
+    @NotBlank(message = "品牌不能为空")
     private String carBrand;
     private String carColor;
     private String ownerId;

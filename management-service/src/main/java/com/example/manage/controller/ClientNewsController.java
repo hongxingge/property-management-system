@@ -8,6 +8,7 @@ import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.mapper.ClientNewsMapper;
 import com.example.manage.service.ClientNewsService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class ClientNewsController {
 
     @RequestMapping("/addNews")
     @ResponseBody
-    public ResultBean addNews(@RequestBody ClientNewsBean newsBean) {
+    public ResultBean addNews(@Valid@RequestBody ClientNewsBean newsBean) {
         newsBean.setTime(System.currentTimeMillis());
         ClientNewsBean bean = clientNewsService.getNewsById((long) newsBean.getId());
         if (bean != null) {
@@ -42,7 +43,7 @@ public class ClientNewsController {
 
     @RequestMapping("/updateNews")
     @ResponseBody
-    public ResultBean updateNews(@RequestBody ClientNewsBean newsBean) {
+    public ResultBean updateNews(@Valid @RequestBody ClientNewsBean newsBean) {
         newsBean.setTime(System.currentTimeMillis());
         if (clientNewsService.updateNews(newsBean)){
             return ResultUtil.getResultBean(1, "修改成功");
@@ -53,7 +54,7 @@ public class ClientNewsController {
 
     @RequestMapping("/deleteNews")
     @ResponseBody
-    public ResultBean deleteNews(@RequestBody Map<String, Long> params) {
+    public ResultBean deleteNews(@Valid@RequestBody Map<String, Long> params) {
         if (clientNewsService.deleteNews(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

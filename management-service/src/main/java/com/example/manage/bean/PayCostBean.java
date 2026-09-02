@@ -1,5 +1,7 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.Positive;
+
 public class PayCostBean {
     private int id;
     private String uid;
@@ -7,6 +9,7 @@ public class PayCostBean {
     private String phone;
     private String roomNumber;
     private int payType;
+    @Positive(message = "金额必须大于0")
     private float payMoney;
     private int payState;
     private int isCheck;

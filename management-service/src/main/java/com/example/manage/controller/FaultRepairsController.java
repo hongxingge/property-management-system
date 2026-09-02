@@ -9,6 +9,7 @@ import com.example.manage.mapper.FaultRepairsMapper;
 import com.example.manage.mapper.PayCostMapper;
 import com.example.manage.service.FaultRepairsService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class FaultRepairsController {
     @RequestMapping("/addFault")
     @RequireRole("owner")
     @ResponseBody
-    public ResultBean addFault(@RequestBody FaultRepairs faultRepairs) {
+    public ResultBean addFault(@Valid@RequestBody FaultRepairs faultRepairs) {
         faultRepairs.setTime(System.currentTimeMillis());
         faultRepairs.setState(1);
         if (repairsService.addFault(faultRepairs)){
@@ -41,7 +42,7 @@ public class FaultRepairsController {
 
     @RequestMapping("/updateFaultForClient")
     @ResponseBody
-    public ResultBean updateFaultForClient(@RequestBody FaultRepairs faultRepairs) {
+    public ResultBean updateFaultForClient(@Valid @RequestBody FaultRepairs faultRepairs) {
         if (repairsService.updateFaultForClient(faultRepairs)){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -50,7 +51,7 @@ public class FaultRepairsController {
 
     @RequestMapping("/updateFaultForAdmin")
     @ResponseBody
-    public ResultBean updateFaultForAdmin(@RequestBody Map<String, Integer> params) {
+    public ResultBean updateFaultForAdmin(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.updateFaultForAdmin(params.get("state"),params.get("id"))){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -60,7 +61,7 @@ public class FaultRepairsController {
     @RequestMapping("/deleteFault")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteFault(@RequestBody Map<String, Integer> params) {
+    public ResultBean deleteFault(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.deleteFault(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

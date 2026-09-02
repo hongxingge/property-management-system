@@ -1,9 +1,13 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class ClientBannerBean {
     private int id;
+    @NotBlank(message = "标题不能为空")
     private String title;
     private String description;
+    @NotBlank(message = "图片不能为空")
     private String img;
 
     public int getId() {

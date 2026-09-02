@@ -1,7 +1,10 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CarportBean {
     private int id;
+    @NotBlank(message = "停车场编号不能为空")
     private String number;
     private int type;
     private String remark;

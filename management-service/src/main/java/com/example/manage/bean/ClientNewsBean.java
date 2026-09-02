@@ -1,8 +1,12 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class ClientNewsBean {
     private int id;
+    @NotBlank(message = "标题不能为空")
     private String title;
+    @NotBlank(message = "内容不能为空")
     private String content;
     private long time;
 

@@ -5,6 +5,7 @@ import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
 import com.example.manage.service.ParkService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class  ParkController {
 
     @RequestMapping("/addPark")
     @ResponseBody
-    public ResultBean addPark(@RequestBody ParkBean parkBean) {
+    public ResultBean addPark(@Valid @RequestBody ParkBean parkBean) {
         List<ParkBean> beans = parkService.getParkByNumber(parkBean.getNumber());
         if (beans != null && beans.size()>0) {
             return ResultUtil.getFailBean("该编号已存在，请修改后提交");
@@ -37,7 +38,7 @@ public class  ParkController {
 
     @RequestMapping("/updatePark")
     @ResponseBody
-    public ResultBean updatePark(@RequestBody ParkBean parkBean) {
+    public ResultBean updatePark(@Valid@RequestBody ParkBean parkBean) {
         if (parkService.updatePark(parkBean)){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -46,7 +47,7 @@ public class  ParkController {
 
     @RequestMapping("/deletePark")
     @ResponseBody
-    public ResultBean deletePark(@RequestBody Map<String, Integer> params) {
+    public ResultBean deletePark(@Valid@RequestBody Map<String, Integer> params) {
         if (parkService.deletePark(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

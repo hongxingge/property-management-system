@@ -8,6 +8,7 @@ import com.example.manage.service.UserService;
 import com.example.manage.utils.JwtUtil;
 import com.example.manage.utils.MD5Util;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class UserController {
     @RequestMapping("/addUser")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addUser(@RequestBody UserBean userBean) {
+    public ResultBean addUser(@Valid @RequestBody UserBean userBean) {
         String uuid = UUID.randomUUID().toString().replace("-", "");
         userBean.setUid(uuid);
         //userBean.setPwd(MD5Util.MD5(userBean.getPwd()));
@@ -48,7 +49,7 @@ public class UserController {
     @RequestMapping("/updateUserByUid")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateUserByUid(@RequestBody UserBean userBean) {
+    public ResultBean updateUserByUid(@Valid @RequestBody UserBean userBean) {
         //userBean.setPwd(MD5Util.MD5(userBean.getPwd()));
         userBean.setPwd(BCrypt.hashpw(userBean.getPwd(), BCrypt.gensalt()));
         if (userService.updateUserByUid(userBean)){

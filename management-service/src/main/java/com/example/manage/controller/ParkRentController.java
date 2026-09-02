@@ -6,6 +6,7 @@ import com.example.manage.mapper.*;
 import com.example.manage.service.*;
 import com.example.manage.utils.ResultUtil;
 import com.example.manage.utils.TimeUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -86,7 +87,7 @@ public class ParkRentController {
     @RequestMapping("/addRent")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addOwnerCar(@RequestBody ParkRentBean parkRentBean) {
+    public ResultBean addOwnerCar(@Valid@RequestBody ParkRentBean parkRentBean) {
         List<ParkRentBean> list = parkRentService.getRentByCondition(parkRentBean);
         if (list != null && list.size() > 0) {
             return ResultUtil.getFailBean("车辆或时间冲突，请检查后再次添加");
@@ -114,7 +115,7 @@ public class ParkRentController {
     @RequestMapping("/updateRent")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateRent(@RequestBody ParkRentBean parkRentBean) {
+    public ResultBean updateRent(@Valid@RequestBody ParkRentBean parkRentBean) {
         List<ParkRentBean> list = parkRentService.getRentByCondition(parkRentBean);
         Iterator<ParkRentBean> iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -135,7 +136,7 @@ public class ParkRentController {
     @RequestMapping("/deleteRent")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteRent(@RequestBody Map<String, Integer> params) {
+    public ResultBean deleteRent(@Valid @RequestBody Map<String, Integer> params) {
         if (parkRentService.deleteRent(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

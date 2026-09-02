@@ -8,6 +8,7 @@ import com.example.manage.service.RoomUserService;
 import com.example.manage.utils.JwtUtil;
 import com.example.manage.utils.ResultUtil;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class RoomUserController {
     @RequestMapping("/addRoomUser")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addRoomUser(@RequestBody RoomUserBean roomUserBean) {
+    public ResultBean addRoomUser( @Valid @RequestBody RoomUserBean roomUserBean) {
         RoomUserBean user = roomUserService.getRoomUserByPhone(roomUserBean.getPhone());
         if (user != null) {
             return ResultUtil.getFailBean("添加失败,手机号已存在");
@@ -98,7 +99,7 @@ public class RoomUserController {
     @RequestMapping("/updateRoomUserById")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateRoomUserById(@RequestBody RoomUserBean roomUserBean) {
+    public ResultBean updateRoomUserById(@Valid@RequestBody RoomUserBean roomUserBean) {
         if (roomUserService.updateRoomUserById(roomUserBean)){
             return ResultUtil.getResultBean(1, "修改成功");
         }

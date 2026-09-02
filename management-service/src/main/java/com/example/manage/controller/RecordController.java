@@ -8,6 +8,7 @@ import com.example.manage.mapper.RecordMapper;
 import com.example.manage.mapper.RecordMapper;
 import com.example.manage.service.RecordService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class RecordController {
     @RequestMapping("/addRecord")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addRecord(@RequestBody RecordBean recordBean) {
+    public ResultBean addRecord(@Valid@RequestBody RecordBean recordBean) {
 //        int count = recordMapper.addRecord(recordBean);
 //        return ResultUtil.getResultBean(count, "添加失败");
         if (recordService.addRecord(recordBean)){
@@ -44,7 +45,7 @@ public class RecordController {
     @RequestMapping("/updateRecord")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateRecord(@RequestBody RecordBean recordBean) {
+    public ResultBean updateRecord(@Valid@RequestBody RecordBean recordBean) {
 //        int count = recordMapper.updateRecord(recordBean);
 //        return ResultUtil.getResultBean(count, "修改失败");
         if (recordService.updateRecord(recordBean)){
@@ -56,7 +57,7 @@ public class RecordController {
     @RequestMapping("/deleteRecord")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteRecord(@RequestBody Map<String, Integer> params) {
+    public ResultBean deleteRecord(@Valid @RequestBody Map<String, Integer> params) {
 //        int count = recordMapper.deleteRecord(params.get("id"));
 //        return ResultUtil.getResultBean(count, "删除失败");
         if (recordService.deleteRecord(params.get("id"))){

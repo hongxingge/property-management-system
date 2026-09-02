@@ -1,10 +1,14 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class FaultRepairs {
     private  int id;
     private String name;
     private String phone;
+    @NotBlank(message = "故障类型不能为空")
     private String faultType;
+    @NotBlank(message = "故障描述不能为空")
     private String faultDesc;
     private int state;
     private String files;

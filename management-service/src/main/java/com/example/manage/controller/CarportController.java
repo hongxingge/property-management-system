@@ -5,6 +5,7 @@ import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
 import com.example.manage.service.CarportService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class CarportController {
     @RequestMapping("/addCarport")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addCarport(@RequestBody CarportBean carportBean) {
+    public ResultBean addCarport(@Valid @RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
         if (bean != null) {
           return   ResultUtil.getFailBean("该编号已存在，请修改后提交");
@@ -38,7 +39,7 @@ public class CarportController {
     @RequestMapping("/updateCarport")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateCarport(@RequestBody CarportBean carportBean) {
+    public ResultBean updateCarport(@Valid@RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
         if (bean != null) {
             return   ResultUtil.getFailBean("该编号已存在,请在该编号下修改");
@@ -52,7 +53,7 @@ public class CarportController {
     @RequestMapping("/deleteCarport")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteCarport(@RequestBody Map<String, Integer> params) {
+    public ResultBean deleteCarport(@Valid@RequestBody Map<String, Integer> params) {
         if (carportService.deleteCarport(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

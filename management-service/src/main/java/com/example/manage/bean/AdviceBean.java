@@ -1,9 +1,12 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AdviceBean {
     private int id;
     private String uid;
     private String fileNames;
+    @NotBlank(message = "建议内容不能为空")
     private String advice;
     private String name;
     private String phone;

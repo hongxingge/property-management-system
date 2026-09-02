@@ -1,11 +1,16 @@
 package com.example.manage.bean;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
 public class ParkBean {
     private int id;
+    @NotBlank(message = "车位编号不能为空")
     private String number;
     private int type;
     private int carportId;
     private String carportName;
+    @Positive(message = "面积必须大于0")
     private int area;
     private String remark;
 

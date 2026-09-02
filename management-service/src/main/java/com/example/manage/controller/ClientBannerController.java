@@ -6,6 +6,7 @@ import com.example.manage.config.RequireRole;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.service.ClientBannerService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class ClientBannerController {
     @RequestMapping("/addBanner")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean addBanner(@RequestBody ClientBannerBean bannerBean) {
+    public ResultBean addBanner(@Valid @RequestBody ClientBannerBean bannerBean) {
         if (bannerService.addBanner(bannerBean)){
             return ResultUtil.getResultBean(1, "添加成功");
         }
@@ -36,7 +37,7 @@ public class ClientBannerController {
     @RequestMapping("/updateBanner")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateBanner(@RequestBody ClientBannerBean bannerBean) {
+    public ResultBean updateBanner(@Valid@RequestBody ClientBannerBean bannerBean) {
         if (bannerService.updateBanner(bannerBean)){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -46,7 +47,7 @@ public class ClientBannerController {
     @RequestMapping("/deleteBanner")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean deleteBanner(@RequestBody Map<String, Long> params) {
+    public ResultBean deleteBanner(@Valid@RequestBody Map<String, Long> params) {
         if (bannerService.deleteBanner(params.get("id"))){
             return ResultUtil.getResultBean(1, "删除成功");
         }

@@ -8,6 +8,7 @@ import com.example.manage.mapper.AdviceMapper;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.service.AdviceService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class AdviceController {
     @RequestMapping("/addAdvice")
     @RequireRole("owner")
     @ResponseBody
-    public ResultBean addAdvice(@RequestBody AdviceBean adviceBean) {
+    public ResultBean addAdvice(@Valid @RequestBody AdviceBean adviceBean) {
         adviceBean.setTime(System.currentTimeMillis());
 //        int count = adviceMapper.addAdvice(adviceBean);
         if (adviceService.addAdvice(adviceBean)){

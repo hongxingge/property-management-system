@@ -21,7 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
                         "/roomUser/login",    // 业主登录
                         "/user_images/**",    // 图片展示（<img> 标签无法带 token，必须放行）
                         "/fileUpload",        // 文件上传（后续阶段可收紧）
-                        "/error"              // Spring 错误页
+                        "/error",             // Spring 错误页
+                        "/payCost/notify",    // 支付宝异步回调(支付宝服务器调用,无 token)
+                        "/payCost/return"     // 支付宝同步返回(浏览器跳转,无自定义 header)
                 );
     }
 }

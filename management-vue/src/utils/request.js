@@ -332,3 +332,11 @@ export function apiAddAdvice(params) {
 export function apiGetAdvice() {
     return get('/advice/getAdvice')
 }
+//创建支付订单(真实支付)
+export function apiCreateOrder(params) {
+    return post('/payCost/createOrder', params)
+}
+//查询订单支付状态(前端轮询)
+export function apiQueryOrder(params) {
+    return get('/payCost/queryOrder', params)
+}

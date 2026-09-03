@@ -71,7 +71,7 @@
 <script>
 import {
   apiAddRoomUser, apiDeleteRoomUserById,
-  apiDeleteUserByUid, apiGetCost, apiGetCostByUid, apiPay,
+  apiDeleteUserByUid, apiGetCost, apiGetCostByUid, apiCreateOrder, apiQueryOrder,
   apiQueryRoomUser, apiUpdateRoomUserById,
   apiUpdateUserByUid
 } from "@/utils/request";
@@ -79,6 +79,10 @@ import {
 export default {
   created() {
     this.getPays()
+    const orderNo = window.sessionStorage.getItem('payOrderNo')   // ← 从 sessionStorage 读
+    if (orderNo) {
+      this.pollOrder(orderNo)
+    }
   },
   data() {
     return {
@@ -94,12 +98,38 @@ export default {
       })
     },
     pay(row) {
-      apiPay({id: row.id}).then(res => {//支付接口，点击支付后，修改记录状态并重新刷新费用信息
-        this.getPays()
-        this.$message.success('支付成功')
+      apiCreateOrder({id: row.id}).then(res => {
+        window.sessionStorage.setItem('payOrderNo', res.orderNo)  // ← 加这行,回来轮询用
+        const div = document.createElement('div')
+        div.style.display = 'none'
+        div.innerHTML = res.form
+        document.body.appendChild(div)
+        div.querySelector('form').submit()
       }).catch(err => {
         this.$message.error(err)
       })
+    },
+    pollOrder(orderNo) {
+      let times = 0
+      const timer = setInterval(() => {
+        apiQueryOrder({orderNo}).then(res => {
+          if (res.status == 1) {
+            clearInterval(timer)
+            window.sessionStorage.removeItem('payOrderNo')   // ← 加
+            this.$message.success('支付成功')
+            this.getPays()
+          } else {
+            times++
+            if (times >= 10) {
+              clearInterval(timer)
+              window.sessionStorage.removeItem('payOrderNo') // ← 加
+              this.$message.warning('支付结果确认超时,请稍后刷新查看')
+            }
+          }
+        }).catch(() => {
+          if (++times >= 10) clearInterval(timer)
+        })
+      }, 2000)
     },
     payTypeFormat(row) {
       switch (row.payType) {

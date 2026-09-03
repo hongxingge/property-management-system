@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.manage.mapper.PaymentOrderMapper">
+
+    <insert id="insertOrder" parameterType="com.example.manage.bean.PaymentOrderBean"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO payment_order
+        (order_no, cost_id, uid, amount, pay_channel, status, create_time, expire_time)
+        VALUES
+            (#{orderNo}, #{costId}, #{uid}, #{amount}, #{payChannel}, #{status}, #{createTime}, #{expireTime})
+    </insert>
+
+    <select id="getByOrderNo" resultType="com.example.manage.bean.PaymentOrderBean">
+        SELECT * FROM payment_order WHERE order_no = #{orderNo}
+    </select>
+
+    <select id="getLatestByCostId" resultType="com.example.manage.bean.PaymentOrderBean">
+        SELECT * FROM payment_order WHERE cost_id = #{costId}
+        ORDER BY create_time DESC LIMIT 1
+    </select>
+
+    <!-- ★ 幂等的 SQL 层实现:status=0 才更新,返回影响行数=0 说明已支付过,直接放行 -->
+    <update id="updateToPaid">
+        UPDATE payment_order
+        SET status = 1, trade_no = #{tradeNo}, pay_time = #{payTime}
+        WHERE order_no = #{orderNo} AND status = 0
+    </update>
+
+    <update id="updateToClosed">
+        UPDATE payment_order SET status = 2
+        WHERE order_no = #{orderNo} AND status = 0
+    </update>
+
+    <select id="listByUid" resultType="com.example.manage.bean.PaymentOrderBean">
+        SELECT * FROM payment_order WHERE uid = #{uid}
+        ORDER BY create_time DESC
+    </select>
+</mapper>

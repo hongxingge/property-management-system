@@ -154,8 +154,7 @@ public class PayCostController {
     @RequestMapping("/return")
     public void returnCallback(@RequestParam("out_trade_no") String orderNo,
                                  HttpServletResponse response) throws IOException {
-        boolean paid = alipayService.tradeQuery(orderNo);
-        if (paid) {
+        if ("PAID".equals(alipayService.queryStatus(orderNo))) {
             int rows = paymentOrderMapper.updateToPaid(orderNo, null, System.currentTimeMillis());
             if (rows > 0) {
                 PaymentOrderBean order = paymentOrderMapper.getByOrderNo(orderNo);
@@ -183,13 +182,21 @@ public class PayCostController {
         if (order == null) {
             return ResultUtil.getFailBean("订单不存在");
         }
-        if (order.getStatus() == 0 && alipayService.tradeQuery(orderNo)) {
-            paymentOrderMapper.updateToPaid(orderNo, null, System.currentTimeMillis());
-            payCostService.pay(order.getCostId());
-            order = paymentOrderMapper.getByOrderNo(orderNo);
-        }
         Map<String, Object> data = new HashMap<>();
         data.put("status", order.getStatus());
+        if (order.getStatus() == 0) {
+            String st = alipayService.queryStatus(orderNo);
+            if ("PAID".equals(st)) {
+                paymentOrderMapper.updateToPaid(orderNo, null, System.currentTimeMillis());
+                payCostService.pay(order.getCostId());
+                data.put("status", 1);
+            } else if ("NOT_EXIST".equals(st)) {
+                // 用户没付款就后退了,支付宝无此交易 → 告诉前端别再轮询
+                data.put("stop", true);
+                data.put("msg", "支付未完成,可重新支付");
+            }
+            // PENDING:还在待付款,前端继续轮询
+        }
         return ResultUtil.getSuccessBean(data);
     }
 

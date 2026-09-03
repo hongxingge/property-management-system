@@ -31,6 +31,7 @@ public class AlipayService {
     @Value("${alipay.alipay-public-key}") private String alipayPublicKey;
     @Value("${alipay.charset}") private String charset;
     @Value("${alipay.sign-type}") private String signType;
+
     /**
      * 电脑网站支付(电脑网站支付 product_code = FAST_INSTANT_TRADE_PAY)
      */
@@ -54,20 +55,31 @@ public class AlipayService {
     }
 
     /**
-     * 主动查询订单状态。
-     * @return true 表示支付宝确认该订单已支付成功
+     * 反查支付宝订单真实状态。
+     * @return "PAID" 已支付成功 | "NOT_EXIST" 支付宝无此交易(用户没付款就后退) | "PENDING" 待付款或查询失败
      */
-    public boolean tradeQuery(String orderNo) {
+    public String queryStatus(String orderNo) {
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent("{\"out_trade_no\":\"" + orderNo + "\"}");
         try {
             AlipayTradeQueryResponse resp = alipayClient.execute(request);
-            // code=10000 表示业务成功,tradeStatus=TRADE_SUCCESS 表示真的付款成功
-            return "10000".equals(resp.getCode())
-                    && "TRADE_SUCCESS".equals(resp.getTradeStatus());
+            // 打印支付宝真实返回,排查用
+            System.out.println("【查单】" + orderNo + " code=" + resp.getCode()
+                    + " trade_status=" + resp.getTradeStatus()
+                    + " sub_code=" + resp.getSubCode()
+                    + " msg=" + resp.getMsg());
+            if ("10000".equals(resp.getCode())
+                    && ("TRADE_SUCCESS".equals(resp.getTradeStatus())
+                    || "TRADE_FINISHED".equals(resp.getTradeStatus()))) {
+                return "PAID";
+            }
+            if ("ACQ.TRADE_NOT_EXIST".equals(resp.getSubCode())) {
+                return "NOT_EXIST";
+            }
+            return "PENDING";
         } catch (Exception e) {
-            //throw new RuntimeException("查询支付宝订单失败: " + e.getMessage(), e);
-            return false;   // 查询失败当"未确认",前端轮询兜底
+            e.printStackTrace();   // 把被吞掉的异常打出来
+            return "PENDING";
         }
     }
 

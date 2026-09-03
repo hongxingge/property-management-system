@@ -42,6 +42,28 @@ const get = (url, params) => {
     })
 }
 
+// 静默 GET:不弹全屏 Loading,给轮询等高频请求用(否则每 2 秒闪一次遮罩像"刷新")
+const getSilent = (url, params) => {
+    params = params || {}
+    return new Promise((resolve, reject) => {
+        $http.get(url, {
+            params,
+            headers: {
+                'Authorization': 'Bearer ' + (window.sessionStorage.getItem('token') || '')
+            }
+        }).then(res => {
+            let result = res.data
+            if (result.errCode === 200) {
+                resolve(result.data)
+            } else {
+                reject(result.errMsg)
+            }
+        }).catch(error => {
+            reject('网络异常')
+        })
+    })
+}
+
 const post = (url, params) => {
     params = params || {}
     return new Promise((resolve, reject) => {
@@ -338,5 +360,5 @@ export function apiCreateOrder(params) {
 }
 //查询订单支付状态(前端轮询)
 export function apiQueryOrder(params) {
-    return get('/payCost/queryOrder', params)
+    return getSilent('/payCost/queryOrder', params)
 }

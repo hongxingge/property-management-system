@@ -41,7 +41,11 @@
 export default {
   created() {
     this.name = window.sessionStorage.getItem('name')
-    this.$router.push('/main')
+    // 只有首次进入 /client(没带具体子路由)才跳主页;
+    // 支付返回等场景带子路由(如 /pay_cost),保持目标页不劫持
+    if (this.$route.path === '/client') {
+      this.$router.push('/main')
+    }
   },
   data() {
     return {

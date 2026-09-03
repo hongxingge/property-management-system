@@ -115,14 +115,18 @@ export default {
         apiQueryOrder({orderNo}).then(res => {
           if (res.status == 1) {
             clearInterval(timer)
-            window.sessionStorage.removeItem('payOrderNo')   // ← 加
+            window.sessionStorage.removeItem('payOrderNo')
             this.$message.success('支付成功')
             this.getPays()
+          } else if (res.stop) {                    // ← 加这个分支
+            clearInterval(timer)
+            window.sessionStorage.removeItem('payOrderNo')
+            this.$message.warning(res.msg)
           } else {
             times++
             if (times >= 10) {
               clearInterval(timer)
-              window.sessionStorage.removeItem('payOrderNo') // ← 加
+              window.sessionStorage.removeItem('payOrderNo')
               this.$message.warning('支付结果确认超时,请稍后刷新查看')
             }
           }

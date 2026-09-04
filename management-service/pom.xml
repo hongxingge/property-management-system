@@ -76,6 +76,12 @@
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.39.79.ALL</version>
         </dependency>
+
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

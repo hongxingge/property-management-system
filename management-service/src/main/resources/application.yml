@@ -8,6 +8,10 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
 
 mybatis:
   configuration:
@@ -48,11 +52,11 @@ alipay:
 # AI / RAG 配置
 ai:
   deepseek:
-    api-key: sk-7445e1c7bbb346fa806e0e994fc97854
+    api-key: sk-3021bec2147048d8803173d94c67a937
     base-url: https://api.deepseek.com
     model: deepseek-chat
   siliconflow:
-    api-key: sk-bgpmpsjbgflwqotzzypkvhshxaeexzmfjqeiksnytavthhmd
+    api-key: sk-foiowsnlonmpxolkyadiddvcttfkaritrnzkicmouchtifac
     base-url: https://api.siliconflow.cn/v1
     embedding-model: BAAI/bge-m3
   top-k: 3

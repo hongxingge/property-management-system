@@ -4,10 +4,12 @@ import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.bean.UserBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.service.TokenBlacklistService;
 import com.example.manage.service.UserService;
 import com.example.manage.utils.JwtUtil;
 import com.example.manage.utils.MD5Util;
 import com.example.manage.utils.ResultUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Resource
+    TokenBlacklistService tokenBlacklistService;
 
     @Resource
     UserService userService;
@@ -49,11 +54,14 @@ public class UserController {
     @RequestMapping("/updateUserByUid")
     @RequireRole("admin")
     @ResponseBody
-    public ResultBean updateUserByUid(@Valid @RequestBody UserBean userBean) {
-        //userBean.setPwd(MD5Util.MD5(userBean.getPwd()));
+    public ResultBean updateUserByUid(@Valid @RequestBody UserBean userBean, HttpServletRequest request) {
         userBean.setPwd(BCrypt.hashpw(userBean.getPwd(), BCrypt.gensalt()));
         if (userService.updateUserByUid(userBean)){
-            return ResultUtil.getResultBean(1, "修改成功");
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                tokenBlacklistService.blacklist(authHeader.substring(7));
+            }
+            return ResultUtil.getResultBean(1, "修改成功,请重新登录");
         }
         return ResultUtil.getResultBean(0, "修改失败");
     }

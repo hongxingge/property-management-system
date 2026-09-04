@@ -5,9 +5,11 @@ import com.example.manage.bean.RoomUserBean;
 import com.example.manage.bean.UserBean;
 import com.example.manage.config.RequireRole;
 import com.example.manage.service.RoomUserService;
+import com.example.manage.service.TokenBlacklistService;
 import com.example.manage.utils.JwtUtil;
 import com.example.manage.utils.ResultUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/roomUser")
 public class RoomUserController {
+
+    @Resource
+    TokenBlacklistService tokenBlacklistService;
 
     @Resource
     RoomUserService roomUserService;
@@ -68,17 +73,20 @@ public class RoomUserController {
     @RequestMapping("/updatePwd")
     @RequireRole("owner")
     @ResponseBody
-    public ResultBean updatePwd(@RequestBody RoomUserBean roomUserBean) {
+    public ResultBean updatePwd(@RequestBody RoomUserBean roomUserBean, HttpServletRequest request) {
         RoomUserBean user = roomUserService.getRoomUserByPhone(roomUserBean.getPhone());
         if (user == null) {
             return ResultUtil.getFailBean("无该用户");
         }
-
         if (BCrypt.checkpw(roomUserBean.getPwd(), user.getPwd())) {
-            //roomUserBean.setuPwd(MD5Util.MD5(roomUserBean.getuPwd()));
             roomUserBean.setuPwd(BCrypt.hashpw(roomUserBean.getuPwd(), BCrypt.gensalt()));
-            if (roomUserService.updatePwd(roomUserBean)){
-                return ResultUtil.getResultBean(1, "修改成功");
+            if (roomUserService.updatePwd(roomUserBean)) {
+                // 改密码成功后,把当前 token 加入黑名单,强制重新登录
+                String authHeader = request.getHeader("Authorization");
+                if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                    tokenBlacklistService.blacklist(authHeader.substring(7));
+                }
+                return ResultUtil.getResultBean(1, "修改成功,请重新登录");
             }
             return ResultUtil.getResultBean(0, "修改失败");
         } else {

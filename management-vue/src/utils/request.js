@@ -93,6 +93,26 @@ const post = (url, params) => {
     })
 }
 
+// 静默 POST:不弹全屏 Loading,给聊天等即时交互用(否则每问一句闪一次遮罩)
+const postSilent = (url, params) => {
+    params = params || {}
+    return new Promise((resolve, reject) => {
+        $http.post(url, JSON.stringify(params), {
+            headers: {
+                'Authorization': 'Bearer ' + (window.sessionStorage.getItem('token') || '')
+            }
+        }).then(res => {
+            if (res.data.errCode === 200) {
+                resolve(res.data.data)
+            } else {
+                reject(res.data.errMsg)
+            }
+        }).catch(err => {
+            reject('网络异常')
+        })
+    })
+}
+
 export function getBaseUrl() {
     return baseURL
 }
@@ -361,4 +381,8 @@ export function apiCreateOrder(params) {
 //查询订单支付状态(前端轮询)
 export function apiQueryOrder(params) {
     return getSilent('/payCost/queryOrder', params)
+}
+//智能客服提问
+export function apiChatAsk(params) {
+    return postSilent('/chat/ask', params)
 }

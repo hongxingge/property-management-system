@@ -44,3 +44,15 @@ alipay:
   # 异步通知:支付宝服务器POST过来,必须公网可达(本地需内网穿透,演示阶段先用 return 兜底)
   notify-url: http://localhost:8899/management/payCost/notify
   front-url: http://localhost:8080    # 前端地址,同步返回后重定向到这里
+
+# AI / RAG 配置
+ai:
+  deepseek:
+    api-key: sk-7445e1c7bbb346fa806e0e994fc97854
+    base-url: https://api.deepseek.com
+    model: deepseek-chat
+  siliconflow:
+    api-key: sk-bgpmpsjbgflwqotzzypkvhshxaeexzmfjqeiksnytavthhmd
+    base-url: https://api.siliconflow.cn/v1
+    embedding-model: BAAI/bge-m3
+  top-k: 3

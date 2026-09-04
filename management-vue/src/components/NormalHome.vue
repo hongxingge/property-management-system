@@ -8,8 +8,8 @@
 
       <div>
         <div>
-          <a @click="$router.push('/pay_cost')">缴费</a> ｜ <a @click="$router.push('/rent_car')">租车位</a> ｜  <a @click="$router.push('/repairs')">故障保修</a> ｜ <a
-            @click="$router.push('/advice')">投诉建议</a>
+          <a @click="$router.push('/chat_box')">智能客服</a> ｜ <a @click="$router.push('/pay_cost')">缴费</a> ｜ <a @click="$router.push('/rent_car')">租车位</a> ｜  <a @click="$router.push('/repairs')">故障保修</a> ｜ <a
+    @click="$router.push('/advice')">投诉建议</a>
         </div>
 
         <el-dropdown style="margin-left: 20px" @command="handleCommand">

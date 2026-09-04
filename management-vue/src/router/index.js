@@ -22,7 +22,7 @@ import ComplaintAndAdvice from "@/components/ComplaintAndAdvice";
 import AdviceManage from "@/components/AdviceManage";
 import ClientRentCar from "@/components/ClientRentCar";
 import CarCostManage from "@/components/CarCostManage";
-
+import ChatBox from "@/components/ChatBox";
 
 const routes = [
     {
@@ -40,7 +40,8 @@ const routes = [
             {path: '/repairs', component: Repairs},
             {path: '/pay_cost', component: PayCost},
             {path: '/advice', component: ComplaintAndAdvice},
-            {path: '/rent_car', component: ClientRentCar}
+            {path: '/rent_car', component: ClientRentCar},
+            {path: '/chat_box', component: ChatBox}
         ]
     }, {
         path: '/news_info',
@@ -63,7 +64,7 @@ const routes = [
             {path: '/news_manage', component: NewsManage},
             {path: '/pay_cost_manage', component: PayCostManage},
             {path: '/repairs_manage', component: RepairsManage},
-            {path: '/advice_manage', component: AdviceManage}
+            {path: '/advice_manage', component: AdviceManage}       
         ]
     }
 

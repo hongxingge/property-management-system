@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {ElLoading} from 'element-plus'
 
-// let baseURL = 'http://47.95.235.161:8899/management'
-let baseURL = 'http://localhost:8899/management'
+let baseURL = import.meta.env.VITE_API_BASE_URL
+//let baseURL = 'http://47.98.103.101:8899/management'
 
 const $http = axios.create({
     baseURL,

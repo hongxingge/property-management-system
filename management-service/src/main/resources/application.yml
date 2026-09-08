@@ -1,17 +1,11 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/management_db?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: 1018
+  application:
+    name: property-management-system
+
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
 
 mybatis:
   configuration:
@@ -23,40 +17,3 @@ server:
   servlet:
     context-path: /management
   port: 8899
-
-
-# 打印sqlcom.example.manage.bean
-logging:
-  level:
-    com.example.manage.mapper: debug
-    com.alipay.api: WARN   # 屏蔽支付宝 SDK 业务失败的 ERROR 日志(交易不存在等属正常)
-    sdk: WARN              # SDK 内部 biz.err logger
-
-# file-save-path: C:/user_images
-file-save-path: C:/user_images/
-
-# 支付宝沙箱配置
-alipay:
-  app-id: 9021000167670248
-  app-private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDNax2Fc4eUSQhnYLtKj9Le1YLAvUFY5AEOgrbBiFaUFI1aLeH3BoU1Q+9y65mjOKQ7m2v+6lg5HT+GvjjLwY+kicgI5t/ZKwtJO61pLh5IwlhtPm8JUo0ooifTN4GaSwqBqikCFipsueNrwBU0IPoNn15Gr08GKXgdLtJKTX/vZQumeJEyBDnDW/3sc0+34kjZQ82MRE6lNMEAyjt22qJ/jsVRVarc5+muk1kjjS5+DYawDcksLFcZlomN2XesIK7pWACP3YnN52NBRii6ExIKT87uq3xdM6/qbIksat8onAJMoe6AflSG0A45zTA4VFf7isiflB4VTz61Y6Oc8AvXAgMBAAECggEAa08VsO1VWkV8umRx8tWHVxk6oO09Ae66DpaCWj+a2uiRnxZxANbLJ7RBlks1i2q/gNQEarqJM+zvjrg4e1i2bUH82YmiTpSJ5MvkHxoUf/Xms8r1vmz9iMiM/W31qmChMHNv0MM7jmjdQSCq8vx3JD6oxUw3gASR1szq1h3+Q1QaFshr9iDD5HQDcqUYyqePQ0MMeLQExumCMuld4PpA7gMIlsuHXQh4T4i/6h7uJH5om9ujK0AGhCGkc5RZYvMTVEr+iRgJP9tGumgRayOlS+p7TQyVWcHAeoLnLLmE3r0nxDn9YU3RH3O4+YFUqmUbEjoBVLZ8fHSVkX0/iVDaAQKBgQDv/1he/gXqHZ32rF1CaMNjOLEt6qNJ90eFnzYnv2VkBfcP3Rxvvah9rOkB20QIeWL+BQYXjMC0Q6iIpnt8QKkZesXsO2Cu2lszxoZRMjAymzGo6Pbiz3PXI8SZUzfYiMPJ1hnoNW5vL0GzAQYrwVJ/uI7tVpttzeddYGLJJ7aYFwKBgQDbHYVU0eIPmda8GLDH48VcpejL3sLs2V5u4hM/ow7v/TJxol+1gn2Qncmw12n1NZhHzmHCnrVpMqZOCFoWKiPg3qfz0TF+j1/9MCmqORhg6voVN2MMD84RNtpplcbjoLJlQgaue41hVuvxD9fe1xCjp6cnmFqijuH83RpUO37CQQKBgBow04QKVLrn4IU66jKFHE2Hsk5AfPFleviqF07fJEF2JTAmASRwniKY7BS3yQTjulneUnvfcGg7ufivsmos5EdTjqXpFPQAAFP2JlJWF8xuA01bnxXBbfLchGf3HPEUe8lbBBjDO/oGPjU6t2GvB0HI8lAUU4H4JneaPS2Wl+ahAoGAOyyuzGheN75hKq00WNdffpTj2OMRG2vcv+9YKXB84T0s+VlTpa5XAM5MIPEcEXfm50WKS0gXUBC4rww8YA4DYIBhNUyCpF5OGw99wRXoSoxK+53YpvJBwY5hz+/+JY1JgGUjbs25MdeKorCXqPvF55yoXN4dZBdYWrTPnn3uzsECgYEAzhm0B/BKZKS5Ys3CXMxbV04Hr7+x3tiyM6+TH/rpP+GIvdDm68E53J7D9ENoOTZ3vzaapE2jnw9uzTjevmS9sNoMqQ9j3kjV8YKjRUnJVjIFydr1WyRfLlMpwGyGmTxJ4pjCDcFKIg2WVFObUxuebkEy+HVlmRCEKltJQigEL8c=
-  alipay-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt6mx0yk1Tlb1VC5oJnpZ+1jAUywocLyVAxq5eNsUvD9DBgPKc7J28Y7weYWeMd//82/LOq+K/Oz1ro1YtzmLBCXN+w9XsiNKil2LR6VGfZpu9fx0m3lz+7s0BzHp54JRNWWPL6HuFj2v9R4jQrZMmBl/2WSwkCSQW/DDlHlZ/dDbRtOBXa2P0fniPX0fkemUrxhW7vSARuMJ+jx7aA/5C9wwOfa4+3zB7axXx+SLGqlPJ6dkL1kw4vv7X6AgiSN0p7fkjep0urLHBqwoA03bEQ0X2155qJbjrz8LEJnQzvguY9wsInqRe6xIu8Z37SxgI52RuBxxbePGBf85rqUBGwIDAQAB    # ← 上传应用公钥后平台回显的那串,拿到再填
-  gateway: https://openapi-sandbox.dl.alipaydev.com/gateway.do
-  charset: UTF-8
-  sign-type: RSA2
-  # 同步返回:付款后浏览器跳回这个后端接口(浏览器访问 localhost 没问题)
-  return-url: http://localhost:8899/management/payCost/return
-  # 异步通知:支付宝服务器POST过来,必须公网可达(本地需内网穿透,演示阶段先用 return 兜底)
-  notify-url: http://localhost:8899/management/payCost/notify
-  front-url: http://localhost:8080    # 前端地址,同步返回后重定向到这里
-
-# AI / RAG 配置
-ai:
-  deepseek:
-    api-key: sk-3021bec2147048d8803173d94c67a937
-    base-url: https://api.deepseek.com
-    model: deepseek-chat
-  siliconflow:
-    api-key: sk-foiowsnlonmpxolkyadiddvcttfkaritrnzkicmouchtifac
-    base-url: https://api.siliconflow.cn/v1
-    embedding-model: BAAI/bge-m3
-  top-k: 3

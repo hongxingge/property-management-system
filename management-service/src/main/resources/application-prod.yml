@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+logging:
+  level:
+    root: info
+    com.example.manage.mapper: info
+    com.alipay.api: WARN
+    sdk: WARN
+
+file-save-path: ${FILE_SAVE_PATH}
+
+alipay:
+  app-id: ${ALIPAY_APP_ID}
+  app-private-key: ${ALIPAY_APP_PRIVATE_KEY}
+  alipay-public-key: ${ALIPAY_PUBLIC_KEY}
+  gateway: ${ALIPAY_GATEWAY}
+  charset: UTF-8
+  sign-type: RSA2
+  return-url: ${ALIPAY_RETURN_URL}
+  notify-url: ${ALIPAY_NOTIFY_URL}
+  front-url: ${FRONT_URL}
+
+ai:
+  deepseek:
+    api-key: ${DEEPSEEK_API_KEY}
+    base-url: ${DEEPSEEK_BASE_URL:https://api.deepseek.com}
+    model: ${DEEPSEEK_MODEL:deepseek-chat}
+
+  siliconflow:
+    api-key: ${SILICONFLOW_API_KEY}
+    base-url: ${SILICONFLOW_BASE_URL:https://api.siliconflow.cn/v1}
+    embedding-model: ${EMBEDDING_MODEL:BAAI/bge-m3}
+
+  top-k: ${RAG_TOP_K:3}

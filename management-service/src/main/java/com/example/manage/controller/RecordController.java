@@ -1,14 +1,13 @@
 package com.example.manage.controller;
 
 import com.example.manage.bean.RecordBean;
-import com.example.manage.bean.RecordBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
 import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.RecordMapper;
-import com.example.manage.mapper.RecordMapper;
 import com.example.manage.service.RecordService;
 import com.example.manage.utils.ResultUtil;
+import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

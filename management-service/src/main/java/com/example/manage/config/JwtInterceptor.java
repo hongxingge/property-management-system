@@ -51,7 +51,15 @@ public class JwtInterceptor implements HandlerInterceptor {
                     RequireRole requireRole = handlerMethod.getMethodAnnotation(RequireRole.class);
                     if (requireRole != null) {
                         String role = (String) claims.get("role");
-                        if (!requireRole.value().equals(role)) {
+                        // 遍历注解里允许的角色数组,当前用户角色命中任意一个就放行
+                        boolean hasRole = false;
+                        for (String allowed : requireRole.value()) {
+                            if (allowed.equals(role)) {
+                                hasRole = true;
+                                break;
+                            }
+                        }
+                        if (!hasRole) {
                             writeJson(response, "{\"errCode\":403,\"errMsg\":\"无权限访问\",\"data\":null}");
                             return false;
                         }

@@ -40,6 +40,7 @@ public class AdviceController {
     }
 
     @RequestMapping("/getAdvice")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean getAdvice() {
         List<AdviceBean> advice = adviceService.getAdvice();

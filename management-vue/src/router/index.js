@@ -23,6 +23,7 @@ import AdviceManage from "@/components/AdviceManage";
 import ClientRentCar from "@/components/ClientRentCar";
 import CarCostManage from "@/components/CarCostManage";
 import ChatBox from "@/components/ChatBox";
+import StaffHome from "@/components/StaffHome";
 
 const routes = [
     {
@@ -65,6 +66,15 @@ const routes = [
             {path: '/pay_cost_manage', component: PayCostManage},
             {path: '/repairs_manage', component: RepairsManage},
             {path: '/advice_manage', component: AdviceManage}       
+        ]
+    },
+    {
+        path: '/staff',
+        component: StaffHome,
+        children: [
+            {path: '/staff/repairs_manage', component: RepairsManage},
+            {path: '/staff/advice_manage', component: AdviceManage},
+            {path: '/staff/news_manage', component: NewsManage}
         ]
     }
 

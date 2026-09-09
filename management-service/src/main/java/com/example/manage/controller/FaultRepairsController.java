@@ -42,6 +42,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/updateFaultForClient")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean updateFaultForClient(@Valid @RequestBody FaultRepairs faultRepairs) {
         if (repairsService.updateFaultForClient(faultRepairs)){
@@ -51,6 +52,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/updateFaultForadmin")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean updateFaultForadmin(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.updateFaultForAdmin(params.get("state"),params.get("id"))){
@@ -60,7 +62,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/deleteFault")
-     @RequireRole(RoleConstant.ADMIN)
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean deleteFault(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.deleteFault(params.get("id"))){
@@ -70,6 +72,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/getFault")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean getFault() {
         List<FaultRepairs> faultRepairs = repairsService.getFault();

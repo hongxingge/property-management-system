@@ -4,6 +4,7 @@ import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ClientNewsBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.mapper.ClientNewsMapper;
 import com.example.manage.service.ClientNewsService;
@@ -28,6 +29,7 @@ public class ClientNewsController {
     ClientNewsService clientNewsService;
 
     @RequestMapping("/addNews")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean addNews(@Valid@RequestBody ClientNewsBean newsBean) {
         newsBean.setTime(System.currentTimeMillis());
@@ -42,6 +44,7 @@ public class ClientNewsController {
     }
 
     @RequestMapping("/updateNews")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean updateNews(@Valid @RequestBody ClientNewsBean newsBean) {
         newsBean.setTime(System.currentTimeMillis());
@@ -51,8 +54,8 @@ public class ClientNewsController {
         return ResultUtil.getResultBean(0, "修改失败");
     }
 
-
     @RequestMapping("/deleteNews")
+    @RequireRole({RoleConstant.ADMIN, RoleConstant.STAFF})
     @ResponseBody
     public ResultBean deleteNews(@Valid@RequestBody Map<String, Long> params) {
         if (clientNewsService.deleteNews(params.get("id"))){
@@ -61,14 +64,12 @@ public class ClientNewsController {
         return ResultUtil.getResultBean(0, "删除失败");
     }
 
-
     @RequestMapping("/getNews")
     @ResponseBody
     public ResultBean getNews() {
         List<ClientNewsBean> news = clientNewsService.getNews();
         return ResultUtil.getSuccessBean(news);
     }
-
 
     @RequestMapping("/getNewsById")
     @ResponseBody

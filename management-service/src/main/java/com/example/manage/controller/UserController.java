@@ -93,7 +93,9 @@ public class UserController {
         if (BCrypt.checkpw(userBean.getPwd(), user.getPwd())) {
             user.setPwd("");
             Map<String, Object> data = new HashMap<>();
-            data.put("token", JwtUtil.generateToken(user.getUid(), user.getName(), "admin"));
+            // 根据 type 判断角色:type=2 是物业员工(staff),其他(默认1)是管理员(admin)
+            String role = (user.getType() == 2) ? RoleConstant.STAFF : RoleConstant.ADMIN;
+            data.put("token", JwtUtil.generateToken(user.getUid(), user.getName(), role));
             data.put("user", user);
             return ResultUtil.getSuccessBean(data);
         } else {

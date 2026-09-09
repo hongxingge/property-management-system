@@ -119,8 +119,7 @@ export default {
           }).catch(err => {
             this.$message.error(err)
           })
-        } else {
-          apiLogin({phone: this.userInfo.phone, pwd: this.userInfo.pwd}).then(res => {
+        } apiLogin({phone: this.userInfo.phone, pwd: this.userInfo.pwd}).then(res => {
             if (this.remember) {
               window.sessionStorage.setItem('phone', res.user.phone)
               window.sessionStorage.setItem('pwd', this.userInfo.pwd)
@@ -129,11 +128,15 @@ export default {
             window.sessionStorage.setItem('userid', res.user.uid)
             window.sessionStorage.setItem('name', res.user.name)
             window.sessionStorage.setItem('activePath', '')
-            this.$router.push('/home')
+            // 根据 type 判断跳转:type=2 是物业员工,进员工端;否则进管理员端
+            if (res.user.type == 2) {
+              this.$router.push('/staff')
+            } else {
+              this.$router.push('/home')
+            }
           }).catch(err => {
             this.$message.error(err)
           })
-        }
 
       }
     }

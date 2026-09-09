@@ -62,7 +62,7 @@ public class RoomUserController {
         if (BCrypt.checkpw(userBean.getPwd(), user.getPwd())) {
             user.setPwd("");
             Map<String, Object> data = new HashMap<>();
-            data.put("token", JwtUtil.generateToken(user.getId(), user.getName(), "owner"));
+            data.put("token", JwtUtil.generateToken(user.getId(), user.getName(), RoleConstant.OWNER));
             data.put("user", user);
             return ResultUtil.getSuccessBean(data);
         } else {

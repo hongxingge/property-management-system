@@ -1,9 +1,12 @@
 package com.example.manage.service;
 
+import com.example.manage.exception.BizException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
@@ -44,6 +47,8 @@ public class RagService {
     private final List<String> knowledgeTexts = new ArrayList<>();
     private final List<float[]> knowledgeVectors = new ArrayList<>();
 
+    private static final Logger log = LoggerFactory.getLogger(RagService.class);
+
     // 启动时加载知识文档并向量化
     @PostConstruct
     public void init() throws Exception {
@@ -57,32 +62,37 @@ public class RagService {
             }
         }
         knowledgeVectors.addAll(embed(knowledgeTexts));
-        System.out.println("【RAG】知识库加载完成,共 " + knowledgeTexts.size() + " 条");
+        log.info("【RAG】知识库加载完成,共 {} 条", knowledgeTexts.size());
     }
 
     /**
      * 调用硅基流动 embedding,把文本转成向量。
+     * 调外部 API 失败时抛 BizException——前端看到友好提示,底层堆栈通过 cause 保留。
      */
-    private List<float[]> embed(List<String> texts) throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(sfKey);
-        Map<String, Object> body = new HashMap<>();
-        body.put("model", embeddingModel);
-        body.put("input", texts);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-        String respJson = restTemplate.postForObject(sfBaseUrl + "/embeddings", entity, String.class);
-        JsonNode data = objectMapper.readTree(respJson).get("data");
-        List<float[]> vectors = new ArrayList<>();
-        for (JsonNode item : data) {
-            JsonNode emb = item.get("embedding");
-            float[] vec = new float[emb.size()];
-            for (int i = 0; i < emb.size(); i++) {
-                vec[i] = (float) emb.get(i).asDouble();
+    private List<float[]> embed(List<String> texts) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(sfKey);
+            Map<String, Object> body = new HashMap<>();
+            body.put("model", embeddingModel);
+            body.put("input", texts);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            String respJson = restTemplate.postForObject(sfBaseUrl + "/embeddings", entity, String.class);
+            JsonNode data = objectMapper.readTree(respJson).get("data");
+            List<float[]> vectors = new ArrayList<>();
+            for (JsonNode item : data) {
+                JsonNode emb = item.get("embedding");
+                float[] vec = new float[emb.size()];
+                for (int i = 0; i < emb.size(); i++) {
+                    vec[i] = (float) emb.get(i).asDouble();
+                }
+                vectors.add(vec);
             }
-            vectors.add(vec);
+            return vectors;
+        } catch (Exception e) {
+            throw new BizException("知识库服务不可用,请稍后再试", e);
         }
-        return vectors;
     }
 
     /** 余弦相似度:两个向量越接近,值越接近 1 */
@@ -111,7 +121,7 @@ public class RagService {
     }
 
     /** 主入口:问题 -> 向量化 -> 检索 -> 生成 */
-    public String ask(String question) throws Exception {
+    public String ask(String question) {
         float[] qVec = embed(List.of(question)).get(0);
         List<String> contexts = retrieve(qVec, topK);
         String system = "你是小区物业智能客服,只能根据下面提供的物业规定回答;规定里没有的,如实回答不知道,不要编造。";
@@ -119,21 +129,25 @@ public class RagService {
         return chat(system, userPrompt);
     }
 
-    /** 调用 DeepSeek 生成回答 */
-    private String chat(String system, String userPrompt) throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(dsKey);
-        Map<String, Object> body = new HashMap<>();
-        body.put("model", dsModel);
-        body.put("temperature", 0.3);
-        List<Map<String, String>> messages = new ArrayList<>();
-        messages.add(Map.of("role", "system", "content", system));
-        messages.add(Map.of("role", "user", "content", userPrompt));
-        body.put("messages", messages);
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-        String respJson = restTemplate.postForObject(dsBaseUrl + "/chat/completions", entity, String.class);
-        return objectMapper.readTree(respJson)
-                .get("choices").get(0).get("message").get("content").asText();
+    /** 调用 DeepSeek 生成回答。调外部 API 失败时抛 BizException。 */
+    private String chat(String system, String userPrompt) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(dsKey);
+            Map<String, Object> body = new HashMap<>();
+            body.put("model", dsModel);
+            body.put("temperature", 0.3);
+            List<Map<String, String>> messages = new ArrayList<>();
+            messages.add(Map.of("role", "system", "content", system));
+            messages.add(Map.of("role", "user", "content", userPrompt));
+            body.put("messages", messages);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            String respJson = restTemplate.postForObject(dsBaseUrl + "/chat/completions", entity, String.class);
+            return objectMapper.readTree(respJson)
+                    .get("choices").get(0).get("message").get("content").asText();
+        } catch (Exception e) {
+            throw new BizException("智能客服暂时不可用,请稍后再试", e);
+        }
     }
 }

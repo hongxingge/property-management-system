@@ -1,8 +1,14 @@
 package com.example.manage.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.security.MessageDigest;
 
 public class MD5Util {
+
+    private static final Logger log = LoggerFactory.getLogger(MD5Util.class);
+
     public final static String MD5(String s) {
         char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
@@ -24,7 +30,7 @@ public class MD5Util {
             }
             return new String(str);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("MD5 计算失败", e);
             return null;
         }
     }

@@ -8,6 +8,8 @@ import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.example.manage.bean.PaymentOrderBean;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ public class AlipayService {
     @Value("${alipay.alipay-public-key}") private String alipayPublicKey;
     @Value("${alipay.charset}") private String charset;
     @Value("${alipay.sign-type}") private String signType;
+
+    private static final Logger log = LoggerFactory.getLogger(AlipayService.class);
 
     /**
      * 电脑网站支付(电脑网站支付 product_code = FAST_INSTANT_TRADE_PAY)
@@ -64,10 +68,8 @@ public class AlipayService {
         try {
             AlipayTradeQueryResponse resp = alipayClient.execute(request);
             // 打印支付宝真实返回,排查用
-            System.out.println("【查单】" + orderNo + " code=" + resp.getCode()
-                    + " trade_status=" + resp.getTradeStatus()
-                    + " sub_code=" + resp.getSubCode()
-                    + " msg=" + resp.getMsg());
+            log.info("【查单】{} code={} trade_status={} sub_code={} msg={}",
+                    orderNo, resp.getCode(), resp.getTradeStatus(), resp.getSubCode(), resp.getMsg());
             if ("10000".equals(resp.getCode())
                     && ("TRADE_SUCCESS".equals(resp.getTradeStatus())
                     || "TRADE_FINISHED".equals(resp.getTradeStatus()))) {
@@ -78,7 +80,7 @@ public class AlipayService {
             }
             return "PENDING";
         } catch (Exception e) {
-            e.printStackTrace();   // 把被吞掉的异常打出来
+            log.error("支付宝查单异常, orderNo={}", orderNo, e);   // 把被吞掉的异常打出来
             return "PENDING";
         }
     }

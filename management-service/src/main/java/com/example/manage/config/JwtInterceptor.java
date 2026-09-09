@@ -4,6 +4,8 @@ import com.example.manage.service.TokenBlacklistService;
 import com.example.manage.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,6 +26,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
     private TokenBlacklistService tokenBlacklistService;
+
+    private static final Logger log = LoggerFactory.getLogger(JwtInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -55,7 +59,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                 }
                 return true;
             } catch (Exception e) {
-                e.printStackTrace();   // ← 加这行，把真实异常打到控制台
+                log.error("token 校验失败", e);   // ← 加这行，把真实异常打到控制台
                 writeJson(response, "{\"errCode\":401,\"errMsg\":\"登录已失效，请重新登录\",\"data\":null}");
                 return false;
             }

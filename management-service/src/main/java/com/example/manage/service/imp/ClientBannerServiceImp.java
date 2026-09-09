@@ -5,6 +5,8 @@ import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.service.ClientBannerService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,8 @@ public class ClientBannerServiceImp implements ClientBannerService {
 
     @Resource
     private ObjectMapper objectMapper;
+
+    private static final Logger log = LoggerFactory.getLogger(ClientBannerServiceImp.class);
 
     @Override
     public boolean addBanner(ClientBannerBean deviceBean) {
@@ -99,7 +103,7 @@ public class ClientBannerServiceImp implements ClientBannerService {
             }catch (Exception e) {
                 // Redis 写入失败不应该影响正常业务
                 // 这里暂时打印异常
-                e.printStackTrace();
+                log.warn("Redis 缓存写入失败", e);
             }
         }
 

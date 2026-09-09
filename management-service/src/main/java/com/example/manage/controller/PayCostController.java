@@ -4,6 +4,7 @@ import com.example.manage.bean.PayCostBean;
 import com.example.manage.bean.PaymentOrderBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.PaymentOrderMapper;
 import com.example.manage.service.AlipayService;
 import com.example.manage.service.ParkingChargeService;
@@ -69,7 +70,7 @@ public class PayCostController {
      * 返回 {orderNo, form},前端把 form 写入页面即可跳转到支付宝。
      */
     @RequestMapping("/createOrder")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean createOrder(@RequestBody Map<String, Integer> params, HttpServletRequest request) {
         Integer costId = params.get("id");
@@ -175,7 +176,7 @@ public class PayCostController {
      * 若订单仍待支付,顺手反查支付宝兜底(notify/return 可能延迟)。
      */
     @RequestMapping("/queryOrder")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean queryOrder(@RequestParam("orderNo") String orderNo) {
         PaymentOrderBean order = paymentOrderMapper.getByOrderNo(orderNo);
@@ -201,7 +202,7 @@ public class PayCostController {
     }
 
     @RequestMapping("/pay")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean pay(@RequestBody Map<String, Integer> params) {
         if (payCostService.pay(params.get("id"))){

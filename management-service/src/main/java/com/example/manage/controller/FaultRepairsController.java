@@ -5,6 +5,7 @@ import com.example.manage.bean.FaultRepairs;
 import com.example.manage.bean.PayCostBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.FaultRepairsMapper;
 import com.example.manage.mapper.PayCostMapper;
 import com.example.manage.service.FaultRepairsService;
@@ -29,7 +30,7 @@ public class FaultRepairsController {
     FaultRepairsService repairsService;
 
     @RequestMapping("/addFault")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean addFault(@Valid@RequestBody FaultRepairs faultRepairs) {
         faultRepairs.setTime(System.currentTimeMillis());
@@ -49,9 +50,9 @@ public class FaultRepairsController {
         return ResultUtil.getResultBean(0, "修改失败");
     }
 
-    @RequestMapping("/updateFaultForAdmin")
+    @RequestMapping("/updateFaultForadmin")
     @ResponseBody
-    public ResultBean updateFaultForAdmin(@Valid@RequestBody Map<String, Integer> params) {
+    public ResultBean updateFaultForadmin(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.updateFaultForAdmin(params.get("state"),params.get("id"))){
             return ResultUtil.getResultBean(1, "修改成功");
         }
@@ -59,7 +60,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/deleteFault")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteFault(@Valid@RequestBody Map<String, Integer> params) {
         if (repairsService.deleteFault(params.get("id"))){
@@ -76,7 +77,7 @@ public class FaultRepairsController {
     }
 
     @RequestMapping("/getFaultByUid")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean getFaultByUid(@RequestParam("uid") String uid) {
         List<FaultRepairs> faultRepairs = repairsService.getFaultByUid(uid);

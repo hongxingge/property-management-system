@@ -1,14 +1,14 @@
 package com.example.manage.controller;
 
-import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.bean.UserBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.service.TokenBlacklistService;
 import com.example.manage.service.UserService;
 import com.example.manage.utils.JwtUtil;
-import com.example.manage.utils.MD5Util;
 import com.example.manage.utils.ResultUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class UserController {
     UserService userService;
 
     @RequestMapping("/addUser")
-    @RequireRole("admin")
+    @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean addUser(@Valid @RequestBody UserBean userBean) {
         String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -52,7 +51,7 @@ public class UserController {
     }
 
     @RequestMapping("/updateUserByUid")
-    @RequireRole("admin")
+    @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean updateUserByUid(@Valid @RequestBody UserBean userBean, HttpServletRequest request) {
         userBean.setPwd(BCrypt.hashpw(userBean.getPwd(), BCrypt.gensalt()));
@@ -67,7 +66,7 @@ public class UserController {
     }
 
     @RequestMapping("/deleteUserByUid")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteUserByUid(@RequestBody Map<String, String> params) {
         if (userService.deleteUserByUid(params.get("uid"))){
@@ -77,7 +76,7 @@ public class UserController {
     }
 
     @RequestMapping("/queryUser")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean queryUser() {
         List<UserBean> userBeans = userService.queryUser();
@@ -104,7 +103,7 @@ public class UserController {
     }
 
     @RequestMapping("/queryUserByPhone")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean queryUserByPhone() {
         UserBean user = userService.queryUserByPhone("");

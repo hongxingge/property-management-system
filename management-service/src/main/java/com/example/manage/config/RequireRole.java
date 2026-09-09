@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 
 /**
  * 标注接口允许访问的角色。
- * 用法：@RequireRole("admin") 表示只有管理员能调用。
+ * 用法：@RequireRole("") 表示只有管理员能调用。
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 /**
- * @author Administrator
+ * @author administrator
  * @version 1.0
  * @description: TODO
  * @date 2026/9/4 19:32

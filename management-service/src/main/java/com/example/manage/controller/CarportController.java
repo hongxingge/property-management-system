@@ -3,6 +3,7 @@ package com.example.manage.controller;
 import com.example.manage.bean.CarportBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.service.CarportService;
 import com.example.manage.utils.ResultUtil;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class CarportController {
     CarportService carportService;
 
     @RequestMapping("/addCarport")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean addCarport(@Valid @RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
@@ -37,7 +38,7 @@ public class CarportController {
     }
 
     @RequestMapping("/updateCarport")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean updateCarport(@Valid@RequestBody CarportBean carportBean) {
         CarportBean bean = carportService.getCarportByNumber(carportBean.getNumber());
@@ -51,7 +52,7 @@ public class CarportController {
     }
 
     @RequestMapping("/deleteCarport")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteCarport(@Valid@RequestBody Map<String, Integer> params) {
         if (carportService.deleteCarport(params.get("id"))){

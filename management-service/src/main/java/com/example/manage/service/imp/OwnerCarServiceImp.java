@@ -1,6 +1,7 @@
 package com.example.manage.service.imp;
 
 import com.example.manage.bean.OwnerCarBean;
+import com.example.manage.bean.OwnerCarBean;
 import com.example.manage.mapper.OwnerCarMapper;
 import com.example.manage.service.OwnerCarService;
 import org.springframework.stereotype.Component;

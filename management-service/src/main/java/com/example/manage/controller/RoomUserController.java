@@ -4,6 +4,7 @@ import com.example.manage.bean.ResultBean;
 import com.example.manage.bean.RoomUserBean;
 import com.example.manage.bean.UserBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.service.RoomUserService;
 import com.example.manage.service.TokenBlacklistService;
 import com.example.manage.utils.JwtUtil;
@@ -34,7 +35,7 @@ public class RoomUserController {
     RoomUserService roomUserService;
 
     @RequestMapping("/addRoomUser")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean addRoomUser( @Valid @RequestBody RoomUserBean roomUserBean) {
         RoomUserBean user = roomUserService.getRoomUserByPhone(roomUserBean.getPhone());
@@ -71,7 +72,7 @@ public class RoomUserController {
     }
 
     @RequestMapping("/updatePwd")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean updatePwd(@RequestBody RoomUserBean roomUserBean, HttpServletRequest request) {
         RoomUserBean user = roomUserService.getRoomUserByPhone(roomUserBean.getPhone());
@@ -95,7 +96,7 @@ public class RoomUserController {
     }
 
     @RequestMapping("/deleteRoomUserById")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteRoomUserById(@RequestBody Map<String, String> params) {
         if (roomUserService.deleteRoomUserById(params.get("id"))){
@@ -105,7 +106,7 @@ public class RoomUserController {
     }
 
     @RequestMapping("/updateRoomUserById")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean updateRoomUserById(@Valid@RequestBody RoomUserBean roomUserBean) {
         if (roomUserService.updateRoomUserById(roomUserBean)){
@@ -115,7 +116,7 @@ public class RoomUserController {
     }
 
     @RequestMapping("/queryRoomUser")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean queryRoomUser() {
         List<RoomUserBean> roomUserBeans = roomUserService.queryRoomUser();
@@ -123,7 +124,7 @@ public class RoomUserController {
     }
 
     @RequestMapping("/queryRoomUserByCondition")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean queryRoomUserByCondition(@RequestParam("condition") String condition) {
         List<RoomUserBean> roomUserBeans = roomUserService.queryRoomUserByCondition(condition);

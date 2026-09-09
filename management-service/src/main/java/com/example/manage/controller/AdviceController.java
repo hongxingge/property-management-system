@@ -4,6 +4,7 @@ import com.example.manage.bean.AdviceBean;
 import com.example.manage.bean.ClientBannerBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.AdviceMapper;
 import com.example.manage.mapper.ClientBannerMapper;
 import com.example.manage.service.AdviceService;
@@ -27,7 +28,7 @@ public class AdviceController {
     AdviceService adviceService;
 
     @RequestMapping("/addAdvice")
-    @RequireRole("owner")
+    @RequireRole(RoleConstant.OWNER)
     @ResponseBody
     public ResultBean addAdvice(@Valid @RequestBody AdviceBean adviceBean) {
         adviceBean.setTime(System.currentTimeMillis());

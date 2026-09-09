@@ -4,6 +4,7 @@ import com.example.manage.bean.RecordBean;
 import com.example.manage.bean.RecordBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
+import com.example.manage.config.RoleConstant;
 import com.example.manage.mapper.RecordMapper;
 import com.example.manage.mapper.RecordMapper;
 import com.example.manage.service.RecordService;
@@ -31,7 +32,7 @@ public class RecordController {
     RecordService recordService;
 
     @RequestMapping("/addRecord")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean addRecord(@Valid@RequestBody RecordBean recordBean) {
 //        int count = recordMapper.addRecord(recordBean);
@@ -43,7 +44,7 @@ public class RecordController {
     }
 
     @RequestMapping("/updateRecord")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean updateRecord(@Valid@RequestBody RecordBean recordBean) {
 //        int count = recordMapper.updateRecord(recordBean);
@@ -55,7 +56,7 @@ public class RecordController {
     }
 
     @RequestMapping("/deleteRecord")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteRecord(@Valid @RequestBody Map<String, Integer> params) {
 //        int count = recordMapper.deleteRecord(params.get("id"));

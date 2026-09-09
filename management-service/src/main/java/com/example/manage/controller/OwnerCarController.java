@@ -1,5 +1,6 @@
 package com.example.manage.controller;
 
+import com.example.manage.config.RoleConstant;
 import com.example.manage.bean.OwnerCarBean;
 import com.example.manage.bean.ResultBean;
 import com.example.manage.config.RequireRole;
@@ -24,7 +25,7 @@ public class OwnerCarController {
     OwnerCarService ownerCarService;
 
     @RequestMapping("/addOwnerCar")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean addOwnerCar(@Valid @RequestBody OwnerCarBean ownerCarBean) {
         List<OwnerCarBean> cars = ownerCarService.getOwnerCarByNumber(ownerCarBean.getCarNumber());
@@ -38,7 +39,7 @@ public class OwnerCarController {
     }
 
     @RequestMapping("/updateOwnerCar")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean updateOwnerCar(@Valid@RequestBody OwnerCarBean ownerCarBean) {
         if (ownerCarService.updateOwnerCar(ownerCarBean)){
@@ -48,7 +49,7 @@ public class OwnerCarController {
     }
 
     @RequestMapping("/deleteOwnerCar")
-    @RequireRole("admin")
+     @RequireRole(RoleConstant.ADMIN)
     @ResponseBody
     public ResultBean deleteOwnerCar(@Valid@RequestBody Map<String, Integer> params) {
         if (ownerCarService.deleteOwnerCar(params.get("id"))){

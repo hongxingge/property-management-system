@@ -47,7 +47,7 @@ public class ParkRentServiceImp implements ParkRentService {
     }
 
     @Override
-    public List<ParkRentBean> getRentByOwnerId(String ownerId) {
+    public List<ParkRentBean> getRentByownerId(String ownerId) {
         return parkRentMapper.getRentByOwnerId(ownerId);
     }
 

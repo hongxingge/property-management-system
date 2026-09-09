@@ -15,7 +15,7 @@ public interface ParkRentService {
 
     List<ParkRentBean> getRent();
 
-    List<ParkRentBean> getRentByOwnerId(String ownerId);
+    List<ParkRentBean> getRentByownerId(String ownerId);
 
     List<ParkRentBean> getRentByParkNumber(String number);
 

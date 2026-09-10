@@ -386,3 +386,13 @@ export function apiQueryOrder(params) {
 export function apiChatAsk(params) {
     return postSilent('/chat/ask', params)
 }
+//知识库管理
+export function apiAddKnowledge(params) {
+    return post('/knowledge/add', params)
+}
+export function apiListKnowledge() {
+    return get('/knowledge/list')
+}
+export function apiDeleteKnowledge(params) {
+    return post('/knowledge/delete', params)
+}

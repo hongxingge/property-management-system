@@ -142,6 +142,10 @@ export default {
             {
               name: '公告',
               path: '/news_manage'
+            },
+            {
+              name: '知识库',
+              path: '/knowledge_manage'
             }
           ]
         }

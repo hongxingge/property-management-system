@@ -24,6 +24,7 @@ import ClientRentCar from "@/components/ClientRentCar";
 import CarCostManage from "@/components/CarCostManage";
 import ChatBox from "@/components/ChatBox";
 import StaffHome from "@/components/StaffHome";
+import KnowledgeManage from "@/components/KnowledgeManage";
 
 const routes = [
     {
@@ -65,7 +66,8 @@ const routes = [
             {path: '/news_manage', component: NewsManage},
             {path: '/pay_cost_manage', component: PayCostManage},
             {path: '/repairs_manage', component: RepairsManage},
-            {path: '/advice_manage', component: AdviceManage}       
+            {path: '/advice_manage', component: AdviceManage},
+            {path: '/knowledge_manage', component: KnowledgeManage}       
         ]
     },
     {
